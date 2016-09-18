@@ -1,0 +1,21 @@
+body {
+  background-color: black;
+}
+
+#master_area{
+  width: 70vw;
+  margin-top:100px;
+  background: transparent;
+  border-width: 0px;
+}
+
+#object_media{
+  background: transparent;
+  border-width: 0px;
+  max-width: 70vw;
+}
+
+#object_description{
+  background: white;
+  border-width: 0px;
+}
