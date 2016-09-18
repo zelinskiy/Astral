@@ -84,6 +84,10 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>mkdir $(ProjectDir)$(OutDir)client
+xcopy $(ProjectDir)client\* $(ProjectDir)$(OutDir)client /e /y /i /r</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -91,7 +95,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="AfterBuild">
-    <Copy SourceFiles="$(ProjectDir)client\*" DestinationFolder="$(TargetDir)" ContinueOnError="true" />
-  </Target>
 </Project>
