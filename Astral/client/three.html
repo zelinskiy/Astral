@@ -1,49 +1,106 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <script src="lib/jquery.min.js"></script>
-  <script src="lib/three.min.js"></script>
+  <script src="/client/lib/jquery.min.js"></script>
+  <script src="/client/lib/three.min.js"></script>
+  <script src="/client/lib/controls.js"></script>
 </head>
 <body>
 <canvas id="WebGL-output"></canvas>
 <script type="text/javascript">
   $(function () {
-    var scene = new THREE.Scene();
+  var domElem = document.getElementById("WebGL-output");
+  var scene = new THREE.Scene();
 	var camera = new THREE.PerspectiveCamera(45
 		, window.innerWidth / window.innerHeight , 0.1, 1000);
-	var renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("WebGL-output"), precision:"highp"});
-	renderer.setClearColor(0xEEEEEE);
+	var renderer = new THREE.WebGLRenderer({
+    canvas: domElem,
+    precision:"highp",
+    alpha: true
+  });
+	//renderer.setClearColor(0xEEEEEE);
 	renderer.setSize(window.innerWidth, window.innerHeight);
-
-  var geometry = new THREE.SphereGeometry(10, 32, 32)
-
   var texloader = new THREE.TextureLoader()
-  var material = new THREE.MeshPhongMaterial();
+
+
+  var sphereGeometry = new THREE.SphereGeometry(10, 32, 32)
+  var sphereMaterial = new THREE.MeshPhongMaterial();
+  var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  sphere.position.x = 0;
+	sphere.position.y = 0;
+	sphere.position.z = 0;
+  scene.add(sphere);
+
+  var controls = new THREE.OrbitControls (camera, domElem)
+  controls.mouseButtons = {
+    ORBIT: THREE.MOUSE.RIGHT,
+    ZOOM: THREE.MOUSE.MIDDLE,
+    PAN: THREE.MOUSE.LEFT };
 
   camera.position.x = -30;
-	camera.position.y = 40;
-	camera.position.z = 30;
-	camera.lookAt(scene.position);
+  camera.position.y = 40;
+  camera.position.z = 30;
+  camera.lookAt(scene.position);
 
   var spotLight = new THREE.SpotLight( 0xffffff );
   spotLight.position.set( -40, 60, -10 );
   scene.add(spotLight);
 
   texloader.load(
-  	'pictures/texture.jpg',
-  	function ( texture ) {
-  		material.map = texture;
-  	},
-  	function ( xhr ) { },
-  	function ( xhr ) { }
+    "/client/pictures/texture.jpg",
+    function(texture){
+      sphereMaterial.map = texture
+      render();
+    },
+    function(res){},
+    function(res){}
   );
 
 
 
-	renderer.render(scene, camera);
+  function render() {
+    //sphere.rotation.x += 0.02;
+    sphere.rotation.y += 0.02;
+    requestAnimationFrame(render);
+    controls.update(1)
+    renderer.render(scene, camera);
+  }
+
+
+
+  /*
+  $("body").keypress(function(event){
+    console.log(event.charCode)
+    switch(event.charCode){
+      case 119:
+        camera.position.x += 1;
+        break;
+      case 115:
+        camera.position.x -= 1;
+        break;
+      case 113:
+        camera.position.y += 1;
+        break;
+      case 122:
+        camera.position.y -= 1;
+        break;
+      case 100:
+        camera.position.z += 1;
+        break;
+      case 97:
+        camera.position.z -= 1;
+        break;
+    }
+
+  })
+  */
   });
 
+
+
+
 </script>
+
 
 </body>
 </html>

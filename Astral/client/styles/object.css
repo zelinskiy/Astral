@@ -1,19 +1,19 @@
-body {
+body, html {
   background-color: black;
+  margin: 0;
+  padding: 0;
+  overflow:hidden;
 }
 
 #master_area{
-  width: 70vw;
+  width: 100%;
   margin-top:100px;
+  padding-right: 70px;
   background: transparent;
   border-width: 0px;
 }
 
-#object_media{
-  background: transparent;
-  border-width: 0px;
-  max-width: 70vw;
-}
+
 
 #object_description{
   background: white;
