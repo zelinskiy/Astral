@@ -1,2 +1,3 @@
+rmdir $(ProjectDir)$(OutDir)client
 mkdir $(ProjectDir)$(OutDir)client
 xcopy $(ProjectDir)client\* $(ProjectDir)$(OutDir)client /e /y /i /r

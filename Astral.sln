@@ -7,7 +7,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Astral", "Astral\Astral.fsp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D6EA74B8-9D81-4464-9A22-AEECAF73E83C}"
 	ProjectSection(SolutionItems) = preProject
-		PostBuild.txt = PostBuild.txt
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject

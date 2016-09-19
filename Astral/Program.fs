@@ -27,7 +27,7 @@ let app =
 
                 path "/hello" >=> OK "Hello!"
 
-                path "/solar" >=> OK "Main page"
+                path "/solar" >=> Files.file "./client/solar.html"
                 path "/three" >=> Files.file "./client/three.html"
                 Files.browseHome
 
