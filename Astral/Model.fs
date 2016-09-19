@@ -4,54 +4,40 @@ open Suave
 open Suave.Json
 open System.Runtime.Serialization
 
-[<DataContract>]
-type Customer = 
-    { 
-        [<field: DataMember(Name="Id")>]
-        Id:int;
+[<DataContract(Name = "root")>]
+type AstralObject(name:string) = 
+    
+    [<field: DataMember(Name="Id")>]
+    member val Id = -1 with get, set
 
-        [<field: DataMember(Name="Name")>]
-        Name:string; 
-    }
+    [<field: DataMember(Name="Name")>]
+    member val Name = name with get, set
 
-[<DataContract>]
-type Commodity = 
-    {
-        [<field: DataMember(Name="Id")>]
-        Id:int;
+    [<field: DataMember(Name="Lecture")>]
+    member val Lecture = "Empty" with get, set
 
-        [<field: DataMember(Name="Name")>]
-        Name:string;
-
-        [<field: DataMember(Name="Amount")>]
-        Amount:int; 
-    }
-
-[<DataContract>]
-type Order = 
-    {
-        [<field: DataMember(Name="Name")>]
-        Id:int; 
-
-        [<field: DataMember(Name="BuyerId")>]
-        BuyerId:int; 
-
-        [<field: DataMember(Name="Commodities")>]
-        Commodities:array<Commodity> 
-    }
+    //TODO: check if this.Id in list
+    [<field: DataMember(Name="Elements")>]
+    member val ElementsIds:Option<array<int>> = None with get,set
+    
 
 
-let private John:Customer = { Id=1; Name="John" }
-let private Ann:Customer = { Id=2; Name="Ann" }
+    
 
-let private Apple:Commodity = { Id=1; Name="Apple"; Amount=100 }
-let private Banana:Commodity = { Id=2; Name="Banana"; Amount=200 }
-let private Shit:Commodity = { Id=3; Name="Shit"; Amount=100 }
+let private Earth = new AstralObject("Earth")
+Earth.Id <- 1
+Earth.Lecture <- "Earth is our home" 
+let private Pluto = new AstralObject("Pluto")
+Pluto.Id <- 2
+Pluto.Lecture <- "Pluto is merely a planet"
 
-let private Order1:Order = { Id=1; BuyerId=1; Commodities = [| { Id=1; Name="Apple"; Amount=12 }  |] }
-
+let SolarSystem = new AstralObject("Solar System")
+SolarSystem.ElementsIds <- Some([| 1; 2 |])
+SolarSystem.Id <- 3
 
 type DB = 
-    static member Customers:List<Customer> = [ John; Ann; ]
-    static member Commodities = [ Apple; Banana; Shit; ]
-    static member Orders:List<Order> = [ Order1; ]        
+    static member AllObjects = [| SolarSystem; Earth; Pluto |]
+    static member SuperObjects = [| SolarSystem |]
+
+    static member findObject (id:int) = 
+        Seq.tryFind (fun (e:AstralObject) -> e.Id = id) DB.AllObjects
