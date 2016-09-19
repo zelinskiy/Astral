@@ -1,13 +1,33 @@
 var objects = [
   {
-    x:0, y:0, z:0, r:2,
-    texture: "/client/pictures/texture.jpg"
+    x:0, y:0, z:0, r:10,
+    texture: "/client/pictures/earth_texture.jpg"
   },
   {
-    x:15, y:15, z:15, r:15,
-    texture: "/client/pictures/texture.jpg"
+    x:20, y:0, z:0, r:3,
+    texture: "/client/pictures/pluto_texture.jpg"
   },
 ]
+
+var texloader = new THREE.TextureLoader()
+
+function loadManyTextures(materials, urls, render){
+  if(materials.length == 0) {
+    render();
+    return;
+  }
+
+  texloader.load(
+    urls.pop(),
+    function(texture){
+      materials.pop().map = texture
+      loadManyTextures(materials, urls, render)
+    },
+    function(res){},
+    function(res){}
+  );
+
+}
 
 $(document).ready(function () {
 
@@ -23,26 +43,19 @@ var renderer = new THREE.WebGLRenderer({
 });
 //renderer.setClearColor(0xEEEEEE);
 renderer.setSize(window.innerWidth, window.innerHeight);
-var texloader = new THREE.TextureLoader()
 
-objects.map(function(object){
+var mats = objects.map(function(object){
   var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
   var sphereMaterial = new THREE.MeshPhongMaterial();
   var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
   sphere.position.x = object.x;
   sphere.position.y = object.y;
   sphere.position.z = object.z;
+  sphere.rotation.y += 0.02;
   scene.add(sphere);
-  texloader.load(
-    object.texture,
-    function(texture){
-      sphereMaterial.map = texture
-    },
-    function(res){},
-    function(res){}
-  );
+  return sphereMaterial;
 })
-
+loadManyTextures(mats, objects.map(function(o){return o.texture}), render)
 
 var controls = new THREE.OrbitControls (camera, domElem)
 controls.mouseButtons = {
@@ -63,14 +76,7 @@ var spotLight2 = new THREE.SpotLight( 0xffffff );
 spotLight2.position.set( 40, 60, 10 );
 scene.add(spotLight2);
 
-
-render();
-
-
-
 function render() {
-  //sphere.rotation.x += 0.02;
-  sphere.rotation.y += 0.02;
   requestAnimationFrame(render);
   controls.update(1)
   renderer.render(scene, camera);
