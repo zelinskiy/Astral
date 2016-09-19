@@ -18,21 +18,21 @@ let toJsonWebPart o =
 let app =
     choose
         [ GET >=> choose
-            [ 
-                path "/objects" >=> toJsonWebPart DB.AllObjects
-                path "/superobjects" >=> toJsonWebPart DB.SuperObjects 
-                pathScan "/object/%d" (fun(id) -> match (DB.findObject id) with
-                    | Some(o) -> toJsonWebPart o
-                    | None -> RequestErrors.NOT_FOUND "Object not found.")
+        [ 
+        path "/objects" >=> toJsonWebPart DB.AllObjects
+        path "/superobjects" >=> toJsonWebPart DB.SuperObjects 
+        pathScan "/object/%d" (fun(id) -> match (DB.findObject id) with
+            | Some(o) -> toJsonWebPart o
+            | None -> RequestErrors.NOT_FOUND "Object not found.")
 
-                path "/hello" >=> OK "Hello!"
+        path "/hello" >=> OK "Hello!"
 
-                path "/solar" >=> Files.file "./client/solar.html"
-                path "/three" >=> Files.file "./client/three.html"
-                Files.browseHome
+        path "/solar" >=> Files.file "./client/solar.html"
+        path "/three" >=> Files.file "./client/three.html"
+        Files.browseHome
 
-                RequestErrors.NOT_FOUND "Page not found." 
-            ]
+        RequestErrors.NOT_FOUND "Page not found." 
+        ]
         ]
 
 [<EntryPoint>]

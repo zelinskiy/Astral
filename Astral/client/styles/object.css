@@ -5,17 +5,18 @@ body, html {
   overflow:hidden;
 }
 
-#master_area{
-  width: 100%;
-  margin-top:100px;
-  padding-right: 70px;
-  background: transparent;
-  border-width: 0px;
+
+#WebGL-output{
+  position: absolute;
+
+  z-index: 10;
 }
-
-
 
 #object_description{
   background: white;
   border-width: 0px;
+  position: absolute;
+  right: 10vw;
+  top: 3vw;
+  z-index: 20;
 }
