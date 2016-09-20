@@ -23,3 +23,9 @@ html, body{
   top:30px;
   z-index: 30;
 }
+
+#objectsListDropdown{
+  position: absolute;
+  left:30px;
+  top:70px;
+}

@@ -1,11 +1,12 @@
 var SIZE = 8/12;
+var CONTROLS;
 
 var _objects = [
   {
     id:1,
     name: "Earth",
     lecture: "Earth lecture",
-    position: {x:-50, y:0, z:0},
+    position: {x:-30, y:0, z:0},
     lookAtPosition: {x:-20, y:20, z:40},
     r:10,
     texture: "/client/pictures/earth_texture.jpg"
@@ -81,7 +82,6 @@ if(system === undefined){
   return
 }
 
-
 var objects = system.elements.map(function(id){
   return loadAstralObject(id);
 })
@@ -120,7 +120,8 @@ var objectsTextures = objects.map(function(o){
 })
 
 
-var controls = new THREE.OrbitControls (camera, domElem)
+CONTROLS = new THREE.OrbitControls (camera, domElem)
+var controls = CONTROLS;
 controls.mouseButtons = {
   ORBIT: THREE.MOUSE.RIGHT,
   ZOOM: THREE.MOUSE.MIDDLE,
@@ -136,18 +137,13 @@ var spotLight1 = new THREE.SpotLight( 0xffffff );
 spotLight1.position.set( -40, 60, -10 );
 scene.add(spotLight1);
 
-var spotLight2 = new THREE.SpotLight( 0xffffff );
-spotLight2.position.set( 40, 60, 10 );
-scene.add(spotLight2);
-
+var HemisphereLight = new THREE.AmbientLight( 0xffffff, 0.3);
+scene.add(HemisphereLight);
 
 
 
 loadManyTextures(spheresMaterials, objectsTextures, render)
 
-lookAtObject(loadAstralObject(1), 500)
-
-/**********************************************************/
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
@@ -155,19 +151,26 @@ function onMouseMove( event ) {
 	mouse.x = ( event.clientX / (window.innerWidth * SIZE) ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
+function onMouseDown( event ) {
+  raycaster.setFromCamera( mouse, camera );
+  var intersects = raycaster.intersectObjects( scene.children );
+  var selected_object = intersects.find(function(){return true;})
+  if(selected_object !== undefined){
+    selectObject(selected_object.object.AstralObject.id)
+  }
+}
 window.addEventListener( 'mousemove', onMouseMove, false );
-/**********************************************************/
-
+window.addEventListener( 'mousedown', onMouseDown, false );
 
 function render() {
   requestAnimationFrame(render);
   controls.update(1)
   showMyPosition(camera.position)
-  processMouseIntersects()
+  processMouseMove()
   renderer.render(scene, camera);
 }
 
-function processMouseIntersects(){
+function processMouseMove(){
   raycaster.setFromCamera( mouse, camera );
   var intersects = raycaster.intersectObjects( scene.children );
   scene.traverse(function(node) {
@@ -180,21 +183,32 @@ function processMouseIntersects(){
 		intersects[i].object.material.color.set( 0xffff00 );
     $("#objectNameLabel").html(intersects[i].object.AstralObject.name)
 	}
+
+}
+});
+
+function selectObject(id){
+  var object = loadAstralObject(id);
+  lookAtObject(object, 100);
+  loadLecture(object);
+}
+
+function loadLecture(object){
+  $("#object_name").html(object.name);
+  $("#object_text").html(object.lecture);
 }
 
 function lookAtObject(object, delay){
   setTimeout(function(){
-    controls.object.position.x = object.lookAtPosition.x;
-    controls.object.position.y = object.lookAtPosition.y;
-    controls.object.position.z = object.lookAtPosition.z;
-    controls.target.set(
+    CONTROLS.object.position.x = object.lookAtPosition.x;
+    CONTROLS.object.position.y = object.lookAtPosition.y;
+    CONTROLS.object.position.z = object.lookAtPosition.z;
+    CONTROLS.target.set(
       object.position.x,
       object.position.y,
       object.position.z)
   }, delay)
 }
-
-});
 
 function toVector3(pos){
   return new THREE.Vector3(pos.x, pos.y, pos.z)

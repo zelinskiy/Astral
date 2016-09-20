@@ -15,33 +15,35 @@
   <script src="/client/scripts/object.js"></script>
 </head>
 <body>
-<p id="positionLabel">X Y Z</p>
-<p id="objectNameLabel"></p>
-<div class="row">
-  <div class="well pull-right col-md-4" id="object_description">
-    <h3>Earth</h3>
-    <ul class="nav nav-tabs">
-      <li role="presentation" class="active"><a href="#">Lecture</a></li>
-      <li role="presentation"><a href="#">Description</a></li>
-      <li role="presentation"><a href="#">Discussion</a></li>
-      <li role="presentation"><a href="#">Ask Question</a></li>
+  <div class="dropdown" id="objectsListDropdown">
+    <button class="btn dropdown-toggle"
+    type="button"
+    id="objectsListDropdownMenu"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="true">
+      Objects
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="objectsListDropdownMenu">
+      <li><a onclick="selectObject(1)">Earth</a></li>
+      <li><a onclick="selectObject(2)">Pluto</a></li>
     </ul>
-    Земля́ — третья от Солнца планета. Пятая по размеру среди всех планет Солнечной системы. Она
-     является также крупнейшей по диаметру, массе и плотности среди планет земной группы.
-    Иногда упоминается как Мир, Голубая планета[17][18][19], иногда Терра (от лат. Terra).
-    Единственное известное человеку на данный момент тело Солнечной системы в частности и Вселенной вообще,
-    населённое живыми организмами.
-    Научные данные указывают на то, что Земля образовалась из солнечной туманности около 4,54
-    миллиарда лет назад[20] и вскоре после этого приобрела свой единственный естественный спутник — Луну.
-    Предположительно жизнь появилась на Земле примерно 4,25 млрд лет назад[21], то есть вскоре после её
-     возникновения. С тех пор биосфера Земли значительно изменила атмосферу и прочие абиотические факторы,
-     обусловив количественный рост аэробных организмов, а также формирование озонового слоя, который вместе
-     с магнитным полем Земли ослабляет вредную для жизни солнечную радиацию[22], тем самым сохраняя условия
-     существования жизни на Земле. Радиация, обусловленная самой земной корой, со времён её образования
-     значительно снизилась благодаря постепенному распаду радионуклидов в ней. Кора Земли разделена на
-      несколько сегментов, или тектонических плит, которые движутся по поверхности со скоростями порядка
-      нескольких сантиметров в год. Изучением состава, строения и закономерностей развития Земли занимается
-       наука геология.
+  </div>
+
+  <p id="positionLabel">X Y Z</p>
+
+  <p id="objectNameLabel"></p>
+
+  <div class="row">
+    <div class="well pull-right col-md-4" id="object_description">
+      <h3 id="object_name">Object</h3>
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">Lecture</a></li>
+        <li role="presentation"><a href="#">Description</a></li>
+        <li role="presentation"><a href="#">Discussion</a></li>
+        <li role="presentation"><a href="#">Ask Question</a></li>
+      </ul>
+      <p id="object_text">Lecture</p>
   </div>
 
   <canvas id="WebGL-output"></canvas>
