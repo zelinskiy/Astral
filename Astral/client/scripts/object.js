@@ -1,15 +1,49 @@
 var objects = [
   {
-    x:0, y:0, z:0, r:10,
+    id:1,
+    name: "Earth",
+    lecture: "Earth lecture",
+    position: {x:0, y:0, z:0},
+    r:10,
     texture: "/client/pictures/earth_texture.jpg"
   },
   {
-    x:20, y:0, z:0, r:3,
+    id:2,
+    name: "Pluto",
+    lecture: "Pluto lecture",
+    position: {x:20, y:0, z:0},
+    r:3,
     texture: "/client/pictures/pluto_texture.jpg"
-  },
+  }
+]
+
+var systems = [
+  {
+    id:1,
+    name: "Solar System",
+    lecture: "Solar System lecture",
+    position: {x:0, y:0, z:0},
+    elements: [ 1, 2 ]
+  }
 ]
 
 var texloader = new THREE.TextureLoader()
+
+function loadDocument(){
+
+}
+
+function loadAstralObject(id){
+  return objects.find(function(o){
+    return o.id == id;
+  })
+}
+
+function loadAstralSystem(id){
+  return systems.find(function(s){
+    return s.id == id;
+  })
+}
 
 function loadManyTextures(materials, urls, render){
   if(materials.length == 0) {
@@ -44,18 +78,23 @@ var renderer = new THREE.WebGLRenderer({
 //renderer.setClearColor(0xEEEEEE);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-var mats = objects.map(function(object){
+var spheres = objects.map(function(object){
   var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
   var sphereMaterial = new THREE.MeshPhongMaterial();
   var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-  sphere.position.x = object.x;
-  sphere.position.y = object.y;
-  sphere.position.z = object.z;
+  sphere.position.x = object.position.x;
+  sphere.position.y = object.position.y;
+  sphere.position.z = object.position.z;
   sphere.rotation.y += 0.02;
   scene.add(sphere);
-  return sphereMaterial;
+  return sphere;
 })
-loadManyTextures(mats, objects.map(function(o){return o.texture}), render)
+
+var spheresMaterials = spheres.map(function(s){
+  return s.material;
+})
+
+loadManyTextures(spheresMaterials, AtomObjects, render)
 
 var controls = new THREE.OrbitControls (camera, domElem)
 controls.mouseButtons = {
@@ -63,10 +102,10 @@ controls.mouseButtons = {
   ZOOM: THREE.MOUSE.MIDDLE,
   PAN: THREE.MOUSE.LEFT };
 
-camera.position.x = -30;
+camera.position.x = 30;
 camera.position.y = 40;
 camera.position.z = 30;
-camera.lookAt(scene.position);
+//camera.lookAt(scene.position);
 
 var spotLight1 = new THREE.SpotLight( 0xffffff );
 spotLight1.position.set( -40, 60, -10 );

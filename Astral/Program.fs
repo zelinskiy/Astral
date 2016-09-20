@@ -19,11 +19,16 @@ let app =
     choose
         [ GET >=> choose
         [ 
-        path "/objects" >=> toJsonWebPart DB.AllObjects
-        path "/superobjects" >=> toJsonWebPart DB.SuperObjects 
+        path "/objects" >=> toJsonWebPart DB.AstralObjects
+        path "/systems" >=> toJsonWebPart DB.AstralSystems
+
         pathScan "/object/%d" (fun(id) -> match (DB.findObject id) with
             | Some(o) -> toJsonWebPart o
             | None -> RequestErrors.NOT_FOUND "Object not found.")
+
+        pathScan "/system/%d" (fun(id) -> match (DB.findSystem id) with
+            | Some(o) -> toJsonWebPart o
+            | None -> RequestErrors.NOT_FOUND "System not found.")
 
         path "/hello" >=> OK "Hello!"
 
