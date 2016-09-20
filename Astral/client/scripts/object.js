@@ -1,3 +1,5 @@
+var SIZE = 8/12;
+
 var _objects = [
   {
     id:1,
@@ -68,17 +70,7 @@ function showMyPosition(pos){
   )
 }
 
-function lookAtObject(controls, object, delay){
-  setTimeout(function(){
-    controls.object.position.x = object.lookAtPosition.x;
-    controls.object.position.y = object.lookAtPosition.y;
-    controls.object.position.z = object.lookAtPosition.z;
-    controls.target.set(
-      object.position.x,
-      object.position.y,
-      object.position.z)
-  }, delay)
-}
+
 
 $(document).ready(function () {
 
@@ -97,14 +89,14 @@ var objects = system.elements.map(function(id){
 var domElem = document.getElementById("WebGL-output");
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45
-  , window.innerWidth / window.innerHeight , 0.1, 1000);
+  , window.innerWidth * SIZE / window.innerHeight , 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({
   canvas: domElem,
   precision:"highp",
   alpha: true
 });
 //renderer.setClearColor(0xEEEEEE);
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth * SIZE, window.innerHeight);
 
 var spheres = objects.map(function(object){
   var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
@@ -152,10 +144,10 @@ scene.add(spotLight2);
 
 
 loadManyTextures(spheresMaterials, objectsTextures, render)
-/*
-lookAtObject(controls, loadAstralObject(2), 1000)
-lookAtObject(controls, loadAstralObject(1), 2000)
-*/
+
+//lookAtObject(controls, loadAstralObject(2), 1000)
+lookAtObject(loadAstralObject(1), 500)
+
 /**********************************************************/
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -172,22 +164,37 @@ function render() {
   requestAnimationFrame(render);
   controls.update(1)
   showMyPosition(camera.position)
+  processMouseIntersects()
+  renderer.render(scene, camera);
+}
 
+function processMouseIntersects(){
   raycaster.setFromCamera( mouse, camera );
   var intersects = raycaster.intersectObjects( scene.children );
-  scene.traverse( function( node ) {
-    if ( node instanceof THREE.Mesh ) {
+  scene.traverse(function(node) {
+    if (node instanceof THREE.Mesh) {
       node.material.color.set( 0xffffff );
       $("#objectNameLabel").html("")
     }
   });
-	for ( var i = 0; i < intersects.length; i++ ) {
+	for (var i = 0; i < intersects.length; i++) {
 		intersects[i].object.material.color.set( 0xffff00 );
     $("#objectNameLabel").html(intersects[i].object.AstralObject.name)
 	}
-
-  renderer.render(scene, camera);
 }
+
+function lookAtObject(object, delay){
+  setTimeout(function(){
+    controls.object.position.x = object.lookAtPosition.x;
+    controls.object.position.y = object.lookAtPosition.y;
+    controls.object.position.z = object.lookAtPosition.z;
+    controls.target.set(
+      object.position.x,
+      object.position.y,
+      object.position.z)
+  }, delay)
+}
+
 });
 
 function toVector3(pos){
