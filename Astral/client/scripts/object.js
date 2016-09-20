@@ -77,7 +77,7 @@ function lookAtObject(controls, object, delay){
       object.position.x,
       object.position.y,
       object.position.z)
-  }, 1000)
+  }, delay)
 }
 
 $(document).ready(function () {
@@ -115,6 +115,7 @@ var spheres = objects.map(function(object){
   sphere.position.z = object.position.z;
   sphere.rotation.y += 0.02;
   scene.add(sphere);
+  sphere.AstralObject = object;
   return sphere;
 })
 
@@ -151,13 +152,40 @@ scene.add(spotLight2);
 
 
 loadManyTextures(spheresMaterials, objectsTextures, render)
+/*
 lookAtObject(controls, loadAstralObject(2), 1000)
+lookAtObject(controls, loadAstralObject(1), 2000)
+*/
+/**********************************************************/
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+function onMouseMove( event ) {
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+}
+window.addEventListener( 'mousemove', onMouseMove, false );
+/**********************************************************/
 
 
 function render() {
   requestAnimationFrame(render);
   controls.update(1)
   showMyPosition(camera.position)
+
+  raycaster.setFromCamera( mouse, camera );
+  var intersects = raycaster.intersectObjects( scene.children );
+  scene.traverse( function( node ) {
+    if ( node instanceof THREE.Mesh ) {
+      node.material.color.set( 0xffffff );
+      $("#objectNameLabel").html("")
+    }
+  });
+	for ( var i = 0; i < intersects.length; i++ ) {
+		intersects[i].object.material.color.set( 0xffff00 );
+    $("#objectNameLabel").html(intersects[i].object.AstralObject.name)
+	}
+
   renderer.render(scene, camera);
 }
 });
