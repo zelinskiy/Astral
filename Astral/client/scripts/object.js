@@ -1,9 +1,10 @@
-var objects = [
+var _objects = [
   {
     id:1,
     name: "Earth",
     lecture: "Earth lecture",
-    position: {x:0, y:0, z:0},
+    position: {x:-50, y:0, z:0},
+    lookAtPosition: {x:-20, y:20, z:40},
     r:10,
     texture: "/client/pictures/earth_texture.jpg"
   },
@@ -11,36 +12,32 @@ var objects = [
     id:2,
     name: "Pluto",
     lecture: "Pluto lecture",
-    position: {x:20, y:0, z:0},
+    position: {x:35, y:0, z:30},
+    lookAtPosition: {x:16, y:4, z:24},
     r:3,
     texture: "/client/pictures/pluto_texture.jpg"
   }
 ]
 
-var systems = [
+var _systems = [
   {
     id:1,
     name: "Solar System",
-    lecture: "Solar System lecture",
-    position: {x:0, y:0, z:0},
+    lookAtPosition: {x:0, y:20, z:130},
     elements: [ 1, 2 ]
   }
 ]
 
 var texloader = new THREE.TextureLoader()
 
-function loadDocument(){
-
-}
-
 function loadAstralObject(id){
-  return objects.find(function(o){
+  return _objects.find(function(o){
     return o.id == id;
   })
 }
 
 function loadAstralSystem(id){
-  return systems.find(function(s){
+  return _systems.find(function(s){
     return s.id == id;
   })
 }
@@ -60,11 +57,42 @@ function loadManyTextures(materials, urls, render){
     function(res){},
     function(res){}
   );
+}
 
+function showMyPosition(pos){
+  var prec = 4
+  $("#positionLabel").html(
+    pos.x.toPrecision(prec)
+    + " " + pos.y.toPrecision(prec)
+    + " " + pos.z.toPrecision(prec)
+  )
+}
+
+function lookAtObject(controls, object, delay){
+  setTimeout(function(){
+    controls.object.position.x = object.lookAtPosition.x;
+    controls.object.position.y = object.lookAtPosition.y;
+    controls.object.position.z = object.lookAtPosition.z;
+    controls.target.set(
+      object.position.x,
+      object.position.y,
+      object.position.z)
+  }, 1000)
 }
 
 $(document).ready(function () {
 
+var SystemId = getQueryVariable("system_id")
+var system = loadAstralSystem(SystemId);
+if(system === undefined){
+  console.log("cant find system")
+  return
+}
+
+
+var objects = system.elements.map(function(id){
+  return loadAstralObject(id);
+})
 
 var domElem = document.getElementById("WebGL-output");
 var scene = new THREE.Scene();
@@ -94,7 +122,10 @@ var spheresMaterials = spheres.map(function(s){
   return s.material;
 })
 
-loadManyTextures(spheresMaterials, AtomObjects, render)
+var objectsTextures = objects.map(function(o){
+  return o.texture;
+})
+
 
 var controls = new THREE.OrbitControls (camera, domElem)
 controls.mouseButtons = {
@@ -102,10 +133,11 @@ controls.mouseButtons = {
   ZOOM: THREE.MOUSE.MIDDLE,
   PAN: THREE.MOUSE.LEFT };
 
-camera.position.x = 30;
-camera.position.y = 40;
-camera.position.z = 30;
-//camera.lookAt(scene.position);
+
+camera.position.x = system.lookAtPosition.x;
+camera.position.y = system.lookAtPosition.y;
+camera.position.z = system.lookAtPosition.z;
+camera.lookAt(scene.position);
 
 var spotLight1 = new THREE.SpotLight( 0xffffff );
 spotLight1.position.set( -40, 60, -10 );
@@ -115,9 +147,45 @@ var spotLight2 = new THREE.SpotLight( 0xffffff );
 spotLight2.position.set( 40, 60, 10 );
 scene.add(spotLight2);
 
+
+
+
+loadManyTextures(spheresMaterials, objectsTextures, render)
+lookAtObject(controls, loadAstralObject(2), 1000)
+
+
 function render() {
   requestAnimationFrame(render);
   controls.update(1)
+  showMyPosition(camera.position)
   renderer.render(scene, camera);
 }
 });
+
+function toVector3(pos){
+  return new THREE.Vector3(pos.x, pos.y, pos.z)
+}
+
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    console.log('Query variable %s not found', variable);
+}
+
+function lookAt(camera, targetPosition) {
+    var targetPos = camera.worldToLocal(targetPosition.clone());
+    var rotationAxis = new THREE.Vector3().crossVectors(
+        new THREE.Vector3(0, 0, -1),
+        targetPos
+    ).normalize();
+    var angle = new THREE.Vector3(0, 0, -1).angleTo(
+        targetPos.normalize().clone());
+
+    camera.rotateOnAxis(rotationAxis, angle);
+}

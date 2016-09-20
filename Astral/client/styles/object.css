@@ -20,3 +20,11 @@ body, html {
   top: 3vw;
   z-index: 20;
 }
+
+#positionLabel{
+  color: white;
+  position: absolute;
+  left:30px;
+  top:30px;
+  z-index: 30;
+}
