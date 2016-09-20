@@ -1,13 +1,11 @@
-
-
-
-#A{
-  width:300px;
+html, body{
+  overflow:hidden;
+  background-color: black;
 }
-
 #object_description{
   background: white;
   border-width: 0px;
+  margin-top:70px;
 }
 
 #positionLabel{

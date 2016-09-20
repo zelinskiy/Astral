@@ -145,7 +145,6 @@ scene.add(spotLight2);
 
 loadManyTextures(spheresMaterials, objectsTextures, render)
 
-//lookAtObject(controls, loadAstralObject(2), 1000)
 lookAtObject(loadAstralObject(1), 500)
 
 /**********************************************************/
@@ -153,7 +152,7 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
 function onMouseMove( event ) {
-	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.x = ( event.clientX / (window.innerWidth * SIZE) ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
 window.addEventListener( 'mousemove', onMouseMove, false );
