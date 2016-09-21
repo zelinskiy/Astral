@@ -1,6 +1,5 @@
 var SIZE = 8/12;
 var CONTROLS;
-var ASTRAL_OBJECTS;
 
 var _objects = [
   {

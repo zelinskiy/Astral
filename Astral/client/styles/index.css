@@ -1,0 +1,16 @@
+html, body{
+  overflow:hidden;
+  background-color: black;
+}
+
+.system_description{
+  color:white;
+  text-align: center;
+  vertical-align: center;
+}
+
+#systems_list{
+  margin-top:50px;
+  margin-right:100px;
+  margin-left:100px;
+}
