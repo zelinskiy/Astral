@@ -15,7 +15,7 @@
   <script src="/client/scripts/object.js"></script>
 </head>
 <body>
-  <button id="returnSystemsButton" onclick="window.location.replace('/client/index.html')" class="btn">&lt- To systems</button>
+  <button id="returnSystemsButton" onclick="window.location.replace('/')" class="btn">&lt- To systems</button>
   <div class="dropdown" id="objectsListDropdown">
     <button class="btn dropdown-toggle"
     type="button"
@@ -25,10 +25,7 @@
     aria-expanded="true">
       Objects
     </button>
-    <ul class="dropdown-menu" aria-labelledby="objectsListDropdownMenu">
-      <li><a onclick="selectObject(1)">Earth</a></li>
-      <li><a onclick="selectObject(2)">Pluto</a></li>
-    </ul>
+    <ul id="objectsList" class="dropdown-menu" aria-labelledby="objectsListDropdownMenu"></ul>
   </div>
 
   <p id="positionLabel">X Y Z</p>

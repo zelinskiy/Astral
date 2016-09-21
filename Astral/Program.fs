@@ -19,21 +19,23 @@ let app =
     choose
         [ GET >=> choose
         [ 
+
+        path "/" >=> Files.file "./client/index.html"
+        pathScan "/system/%d" (fun(id) ->  Files.file "./client/object.html")
+
         path "/objects" >=> toJsonWebPart DB.AstralObjects
         path "/systems" >=> toJsonWebPart DB.AstralSystems
 
-        pathScan "/object/%d" (fun(id) -> match (DB.findObject id) with
+        pathScan "/loadobject/%d" (fun(id) -> match (DB.findObject id) with
             | Some(o) -> toJsonWebPart o
             | None -> RequestErrors.NOT_FOUND "Object not found.")
 
-        pathScan "/system/%d" (fun(id) -> match (DB.findSystem id) with
+        pathScan "/loadsystem/%d" (fun(id) -> match (DB.findSystem id) with
             | Some(o) -> toJsonWebPart o
             | None -> RequestErrors.NOT_FOUND "System not found.")
 
         path "/hello" >=> OK "Hello!"
 
-        path "/solar" >=> Files.file "./client/solar.html"
-        path "/three" >=> Files.file "./client/three.html"
         Files.browseHome
 
         RequestErrors.NOT_FOUND "Page not found." 

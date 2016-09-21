@@ -1,6 +1,8 @@
 var SIZE = 8/12;
 var CONTROLS;
+var FOCUS_DISTANCE_COEFF = 5;
 
+/*
 var _objects = [
   {
     id:1,
@@ -24,7 +26,7 @@ var _objects = [
   }
 ]
 
-var _systems = [
+var system = [
   {
     id:1,
     name: "Solar System",
@@ -32,19 +34,34 @@ var _systems = [
     elements: [ 1, 2 ]
   }
 ]
-
+*/
 
 
 function loadAstralObject(id){
-  return _objects.find(function(o){
-    return o.id == id;
-  })
+  var res;
+  $.ajax({
+    async: false,
+		type: "GET",
+		url: '/loadobject/' + id,
+		success:function(r) {
+			console.log("loaded object " + id)
+      res = r;
+		}
+	});
+  return res;
 }
 
 function loadAstralSystem(id){
-  return _systems.find(function(s){
-    return s.id == id;
-  })
+  var res;
+  $.ajax({
+    async: false,
+		type: "GET",
+		url: '/loadsystem/' + id,
+		success:function(r) {
+      res = r;
+		}
+	});
+  return res;
 }
 
 function loadManyTextures(spheres, render, texloader){
@@ -73,11 +90,11 @@ function showMyPosition(pos){
   )
 }
 
-function loadSetupSystem(camera){
-  var SystemId = getQueryVariable("system_id")
+function loadSetupSystem(){
+  var SystemId = window.location.pathname.split('/').pop()
   var system = loadAstralSystem(SystemId);
   if(system === undefined){
-    console.log("cant find system")
+    console.log("cant find system " + SystemId)
     return
   }
 
@@ -85,15 +102,11 @@ function loadSetupSystem(camera){
     return loadAstralObject(id);
   })
 
-  camera.position.x = system.lookAtPosition.x;
-  camera.position.y = system.lookAtPosition.y;
-  camera.position.z = system.lookAtPosition.z;
-
   return objects;
 }
 
 function loadSpheresOnScene(scene, camera){
-  var objects = loadSetupSystem(camera);
+  var objects = loadSetupSystem();
   var spheres = objects.map(function(object){
     var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
     var sphereMaterial = new THREE.MeshPhongMaterial();
@@ -105,6 +118,9 @@ function loadSpheresOnScene(scene, camera){
     sphere.AstralObject = object;
     return sphere;
   })
+  camera.position.x = scene.position.x;
+  camera.position.y = scene.position.y;
+  camera.position.z = scene.position.z + 500;
   return spheres;
 }
 
@@ -167,9 +183,9 @@ function loadLecture(object){
 
 function lookAtObject(object, delay){
   setTimeout(function(){
-    CONTROLS.object.position.x = object.lookAtPosition.x;
-    CONTROLS.object.position.y = object.lookAtPosition.y;
-    CONTROLS.object.position.z = object.lookAtPosition.z;
+    CONTROLS.object.position.x = object.position.x;
+    CONTROLS.object.position.y = object.position.y;
+    CONTROLS.object.position.z = object.position.z + (object.r * FOCUS_DISTANCE_COEFF);
     CONTROLS.target.set(
       object.position.x,
       object.position.y,
@@ -187,6 +203,7 @@ function getQueryVariable(variable) {
         }
     }
     console.log('Query variable %s not found', variable);
+    return false;
 }
 
 function lookAt(camera, targetPosition) {
@@ -215,6 +232,21 @@ function rotateSpheres(spheres){
   })
 }
 
+function setupObjectsList(objects){
+  for(i=0;i<objects.length;i++){
+    var object = objects[i];
+    var objectName = object.name;
+    var objectId = object.id;
+    $("#objectsList").append(
+      "<li><a onclick=\"selectObject("
+      + objectId
+      + ")\">"
+      + objectName
+      + "</a></li>"
+    )
+  }
+}
+
 $(document).ready(function () {
   //Setting up variables
   var domElem = document.getElementById("WebGL-output");
@@ -237,8 +269,7 @@ $(document).ready(function () {
   var spheres = loadSpheresOnScene(scene, camera);
   loadManyTextures(spheres.slice(), render, texloader)
   showLightsOnScene(scene);
-  console.log(spheres)
-
+  setupObjectsList(spheres.slice().map(function(s){ return s.AstralObject; }))
 
   //Our loop
   function render() {
