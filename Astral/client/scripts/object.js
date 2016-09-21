@@ -31,7 +31,7 @@ var _systems = [
   }
 ]
 
-var texloader = new THREE.TextureLoader()
+
 
 function loadAstralObject(id){
   return _objects.find(function(o){
@@ -45,7 +45,7 @@ function loadAstralSystem(id){
   })
 }
 
-function loadManyTextures(materials, urls, render){
+function loadManyTextures(materials, urls, render, texloader){
   if(materials.length == 0) {
     render();
     return;
@@ -55,7 +55,7 @@ function loadManyTextures(materials, urls, render){
     urls.pop(),
     function(texture){
       materials.pop().map = texture
-      loadManyTextures(materials, urls, render)
+      loadManyTextures(materials, urls, render, texloader)
     },
     function(res){},
     function(res){}
@@ -71,121 +71,92 @@ function showMyPosition(pos){
   )
 }
 
-
-
-$(document).ready(function () {
-
-var SystemId = getQueryVariable("system_id")
-var system = loadAstralSystem(SystemId);
-if(system === undefined){
-  console.log("cant find system")
-  return
-}
-
-var objects = system.elements.map(function(id){
-  return loadAstralObject(id);
-})
-
-var domElem = document.getElementById("WebGL-output");
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(45
-  , window.innerWidth * SIZE / window.innerHeight , 0.1, 1000);
-var renderer = new THREE.WebGLRenderer({
-  canvas: domElem,
-  precision:"highp",
-  alpha: true
-});
-//renderer.setClearColor(0xEEEEEE);
-renderer.setSize(window.innerWidth * SIZE, window.innerHeight);
-
-var spheres = objects.map(function(object){
-  var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
-  var sphereMaterial = new THREE.MeshPhongMaterial();
-  var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-  sphere.position.x = object.position.x;
-  sphere.position.y = object.position.y;
-  sphere.position.z = object.position.z;
-  sphere.rotation.y += 0.02;
-  scene.add(sphere);
-  sphere.AstralObject = object;
-  return sphere;
-})
-
-var spheresMaterials = spheres.map(function(s){
-  return s.material;
-})
-
-var objectsTextures = objects.map(function(o){
-  return o.texture;
-})
-
-
-CONTROLS = new THREE.OrbitControls (camera, domElem)
-var controls = CONTROLS;
-controls.mouseButtons = {
-  ORBIT: THREE.MOUSE.RIGHT,
-  ZOOM: THREE.MOUSE.MIDDLE,
-  PAN: THREE.MOUSE.LEFT };
-
-
-camera.position.x = system.lookAtPosition.x;
-camera.position.y = system.lookAtPosition.y;
-camera.position.z = system.lookAtPosition.z;
-camera.lookAt(scene.position);
-
-var spotLight1 = new THREE.SpotLight( 0xffffff );
-spotLight1.position.set( -40, 60, -10 );
-scene.add(spotLight1);
-
-var HemisphereLight = new THREE.AmbientLight( 0xffffff, 0.3);
-scene.add(HemisphereLight);
-
-
-
-loadManyTextures(spheresMaterials, objectsTextures, render)
-
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
-
-function onMouseMove( event ) {
-	mouse.x = ( event.clientX / (window.innerWidth * SIZE) ) * 2 - 1;
-	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-}
-function onMouseDown( event ) {
-  raycaster.setFromCamera( mouse, camera );
-  var intersects = raycaster.intersectObjects( scene.children );
-  var selected_object = intersects.find(function(){return true;})
-  if(selected_object !== undefined){
-    selectObject(selected_object.object.AstralObject.id)
+function loadData(camera){
+  var SystemId = getQueryVariable("system_id")
+  var system = loadAstralSystem(SystemId);
+  if(system === undefined){
+    console.log("cant find system")
+    return
   }
-}
-window.addEventListener( 'mousemove', onMouseMove, false );
-window.addEventListener( 'mousedown', onMouseDown, false );
 
-function render() {
-  requestAnimationFrame(render);
-  controls.update(1)
-  showMyPosition(camera.position)
-  processMouseMove()
-  renderer.render(scene, camera);
+  var objects = system.elements.map(function(id){
+    return loadAstralObject(id);
+  })
+
+  camera.position.x = system.lookAtPosition.x;
+  camera.position.y = system.lookAtPosition.y;
+  camera.position.z = system.lookAtPosition.z;
+
+  return objects;
 }
 
-function processMouseMove(){
-  raycaster.setFromCamera( mouse, camera );
-  var intersects = raycaster.intersectObjects( scene.children );
-  scene.traverse(function(node) {
-    if (node instanceof THREE.Mesh) {
-      node.material.color.set( 0xffffff );
-      $("#objectNameLabel").html("")
+function showSpheresOnScene(scene, camera, render, texloader){
+  var objects = loadData(camera);
+  var spheres = objects.map(function(object){
+    var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
+    var sphereMaterial = new THREE.MeshPhongMaterial();
+    var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    sphere.position.x = object.position.x;
+    sphere.position.y = object.position.y;
+    sphere.position.z = object.position.z;
+    sphere.rotation.y += 0.02;
+    scene.add(sphere);
+    sphere.AstralObject = object;
+    return sphere;
+  })
+  var spheresMaterials = spheres.map(function(s){
+    return s.material;
+  })
+
+  var objectsTextures = objects.map(function(o){
+    return o.texture;
+  })
+  loadManyTextures(spheresMaterials, objectsTextures, render, texloader)
+}
+
+function showLightsOnScene(scene){
+  var spotLight1 = new THREE.SpotLight( 0xffffff );
+  spotLight1.position.set( -40, 60, -10 );
+  scene.add(spotLight1);
+
+  var HemisphereLight = new THREE.AmbientLight( 0xffffff, 0.3);
+  scene.add(HemisphereLight);
+}
+
+function setupMouseSelector(scene, camera){
+  var raycaster = new THREE.Raycaster();
+  var mouse = new THREE.Vector2();
+
+  function onMouseMove( event ) {
+  	mouse.x = ( event.clientX / (window.innerWidth * SIZE) ) * 2 - 1;
+  	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    raycaster.setFromCamera( mouse, camera );
+    var intersects = raycaster.intersectObjects( scene.children );
+    scene.traverse(function(node) {
+      if (node instanceof THREE.Mesh) {
+        node.material.color.set( 0xffffff );
+        $("#objectNameLabel").html("")
+      }
+    });
+    for (var i = 0; i < intersects.length; i++) {
+      intersects[i].object.material.color.set( 0xffff00 );
+      $("#objectNameLabel").html(intersects[i].object.AstralObject.name)
     }
-  });
-	for (var i = 0; i < intersects.length; i++) {
-		intersects[i].object.material.color.set( 0xffff00 );
-    $("#objectNameLabel").html(intersects[i].object.AstralObject.name)
-	}
+
+  }
+  function onMouseDown( event ) {
+    raycaster.setFromCamera( mouse, camera );
+    var intersects = raycaster.intersectObjects( scene.children );
+    var selected_object = intersects.find(function(){return true;})
+    if(selected_object !== undefined){
+      selectObject(selected_object.object.AstralObject.id)
+    }
+  }
+  window.addEventListener( 'mousemove', onMouseMove, false );
+  window.addEventListener( 'mousedown', onMouseDown, false );
 
 }
-});
 
 function selectObject(id){
   var object = loadAstralObject(id);
@@ -208,10 +179,6 @@ function lookAtObject(object, delay){
       object.position.y,
       object.position.z)
   }, delay)
-}
-
-function toVector3(pos){
-  return new THREE.Vector3(pos.x, pos.y, pos.z)
 }
 
 function getQueryVariable(variable) {
@@ -237,3 +204,42 @@ function lookAt(camera, targetPosition) {
 
     camera.rotateOnAxis(rotationAxis, angle);
 }
+
+function setupControls(camera, domElem){
+  CONTROLS = new THREE.OrbitControls (camera, domElem)
+  CONTROLS.mouseButtons = {
+    ORBIT: THREE.MOUSE.RIGHT,
+    ZOOM: THREE.MOUSE.MIDDLE,
+    PAN: THREE.MOUSE.LEFT };
+}
+
+$(document).ready(function () {
+  //Setting up variables
+  var domElem = document.getElementById("WebGL-output");
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(45
+    , window.innerWidth * SIZE / window.innerHeight , 0.1, 1000);
+  camera.lookAt(scene.position);
+  var renderer = new THREE.WebGLRenderer({
+    canvas: domElem,
+    precision:"highp",
+    alpha: true
+  });
+  //renderer.setClearColor(0xEEEEEE);
+  renderer.setSize(window.innerWidth * SIZE, window.innerHeight);
+  var texloader = new THREE.TextureLoader()
+
+  //Main functions calls
+  setupControls(camera, domElem);
+  setupMouseSelector(scene, camera);
+  showSpheresOnScene(scene, camera, render, texloader);
+  showLightsOnScene(scene);
+
+  //Our loop
+  function render() {
+    requestAnimationFrame(render);
+    CONTROLS.update(1)
+    showMyPosition(camera.position)
+    renderer.render(scene, camera);
+  }
+});
