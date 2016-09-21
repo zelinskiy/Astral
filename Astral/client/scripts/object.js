@@ -1,5 +1,6 @@
 var SIZE = 8/12;
 var CONTROLS;
+var ASTRAL_OBJECTS;
 
 var _objects = [
   {
@@ -9,6 +10,7 @@ var _objects = [
     position: {x:-30, y:0, z:0},
     lookAtPosition: {x:-20, y:20, z:40},
     r:10,
+    rotV: 0.003,
     texture: "/client/pictures/earth_texture.jpg"
   },
   {
@@ -18,6 +20,7 @@ var _objects = [
     position: {x:35, y:0, z:30},
     lookAtPosition: {x:16, y:4, z:24},
     r:3,
+    rotV: 0.015,
     texture: "/client/pictures/pluto_texture.jpg"
   }
 ]
@@ -45,17 +48,17 @@ function loadAstralSystem(id){
   })
 }
 
-function loadManyTextures(materials, urls, render, texloader){
-  if(materials.length == 0) {
+function loadManyTextures(spheres, render, texloader){
+  if(spheres.length == 0) {
     render();
     return;
   }
-
+  var sphere = spheres.pop();
   texloader.load(
-    urls.pop(),
+    sphere.AstralObject.texture,
     function(texture){
-      materials.pop().map = texture
-      loadManyTextures(materials, urls, render, texloader)
+      sphere.material.map = texture
+      loadManyTextures(spheres, render, texloader)
     },
     function(res){},
     function(res){}
@@ -71,7 +74,7 @@ function showMyPosition(pos){
   )
 }
 
-function loadData(camera){
+function loadSetupSystem(camera){
   var SystemId = getQueryVariable("system_id")
   var system = loadAstralSystem(SystemId);
   if(system === undefined){
@@ -90,8 +93,8 @@ function loadData(camera){
   return objects;
 }
 
-function showSpheresOnScene(scene, camera, render, texloader){
-  var objects = loadData(camera);
+function loadSpheresOnScene(scene, camera){
+  var objects = loadSetupSystem(camera);
   var spheres = objects.map(function(object){
     var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
     var sphereMaterial = new THREE.MeshPhongMaterial();
@@ -99,19 +102,11 @@ function showSpheresOnScene(scene, camera, render, texloader){
     sphere.position.x = object.position.x;
     sphere.position.y = object.position.y;
     sphere.position.z = object.position.z;
-    sphere.rotation.y += 0.02;
     scene.add(sphere);
     sphere.AstralObject = object;
     return sphere;
   })
-  var spheresMaterials = spheres.map(function(s){
-    return s.material;
-  })
-
-  var objectsTextures = objects.map(function(o){
-    return o.texture;
-  })
-  loadManyTextures(spheresMaterials, objectsTextures, render, texloader)
+  return spheres;
 }
 
 function showLightsOnScene(scene){
@@ -140,11 +135,13 @@ function setupMouseSelector(scene, camera){
       }
     });
     for (var i = 0; i < intersects.length; i++) {
-      intersects[i].object.material.color.set( 0xffff00 );
-      $("#objectNameLabel").html(intersects[i].object.AstralObject.name)
+      var sphere = intersects[i].object;
+      sphere.material.color.set( 0xffff00 );
+      $("#objectNameLabel").html(sphere.AstralObject.name)
     }
 
   }
+
   function onMouseDown( event ) {
     raycaster.setFromCamera( mouse, camera );
     var intersects = raycaster.intersectObjects( scene.children );
@@ -213,6 +210,12 @@ function setupControls(camera, domElem){
     PAN: THREE.MOUSE.LEFT };
 }
 
+function rotateSpheres(spheres){
+  spheres.map(function(s){
+    s.rotation.y += s.AstralObject.rotV;
+  })
+}
+
 $(document).ready(function () {
   //Setting up variables
   var domElem = document.getElementById("WebGL-output");
@@ -232,14 +235,18 @@ $(document).ready(function () {
   //Main functions calls
   setupControls(camera, domElem);
   setupMouseSelector(scene, camera);
-  showSpheresOnScene(scene, camera, render, texloader);
+  var spheres = loadSpheresOnScene(scene, camera);
+  loadManyTextures(spheres.slice(), render, texloader)
   showLightsOnScene(scene);
+  console.log(spheres)
+
 
   //Our loop
   function render() {
     requestAnimationFrame(render);
     CONTROLS.update(1)
     showMyPosition(camera.position)
+    rotateSpheres(spheres)
     renderer.render(scene, camera);
   }
 });
