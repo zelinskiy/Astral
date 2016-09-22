@@ -109,13 +109,20 @@ function loadSpheresOnScene(scene, camera){
   var objects = loadSetupSystem();
   var spheres = objects.map(function(object){
     var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
-    var sphereMaterial = new THREE.MeshPhongMaterial();
+    var sphereMaterial = new THREE.MeshLambertMaterial();
+    if(object.isLightSource == true){
+      surroundAstralObjectWithLights(object, scene, 0xffffff, 0.5, 0)      
+    }
+
     var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.x = object.position.x;
     sphere.position.y = object.position.y;
     sphere.position.z = object.position.z;
     scene.add(sphere);
     sphere.AstralObject = object;
+
+
+
     return sphere;
   })
   camera.position.x = scene.position.x;
@@ -124,12 +131,34 @@ function loadSpheresOnScene(scene, camera){
   return spheres;
 }
 
+function surroundAstralObjectWithLights(object, scene, color, intensity, distance){
+  var d = object.r + (2 * object.r);
+  var light1 = new THREE.PointLight(color, intensity, distance);
+  light1.position.set(object.position.x + d, object.position.y, object.position.z + d);
+  scene.add(light1);
+  var light2 = new THREE.PointLight(color, intensity, distance);
+  light2.position.set(object.position.x - d, object.position.y, object.position.z + d);
+  scene.add(light2);
+  var light3 = new THREE.PointLight(color, intensity, distance);
+  light3.position.set(object.position.x + d, object.position.y, object.position.z - d);
+  scene.add(light3);
+  var light4 = new THREE.PointLight(color, intensity, distance);
+  light4.position.set(object.position.x - d, object.position.y, object.position.z - d);
+  scene.add(light4);
+  var light5 = new THREE.PointLight(color, intensity, distance);
+  light5.position.set(object.position.x, object.position.y + d, object.position.z);
+  scene.add(light5);
+  var light6 = new THREE.PointLight(color, intensity, distance);
+  light6.position.set(object.position.x, object.position.y - d, object.position.z);
+  scene.add(light6);
+}
+
 function showLightsOnScene(scene){
   var spotLight1 = new THREE.SpotLight( 0xffffff );
   spotLight1.position.set( -40, 60, -10 );
-  scene.add(spotLight1);
+  //scene.add(spotLight1);
 
-  var HemisphereLight = new THREE.AmbientLight( 0xffffff, 0.3);
+  var HemisphereLight = new THREE.AmbientLight( 0xffffff, 0.4);
   scene.add(HemisphereLight);
 }
 
@@ -232,6 +261,17 @@ function rotateSpheres(spheres){
   })
 }
 
+function rotateSpheresOrbits(spheres){
+  spheres.map(function(s){
+    s.position.x = s.AstralObject.orbit.center.x
+      + (s.position.x - s.AstralObject.orbit.center.x)*Math.cos(s.AstralObject.orbit.angleV)
+      - (s.position.z - s.AstralObject.orbit.center.z)*Math.sin(s.AstralObject.orbit.angleV);
+    s.position.z = s.AstralObject.orbit.center.z
+      + (s.position.x-s.AstralObject.orbit.center.x)*Math.sin(s.AstralObject.orbit.angleV)
+      + (s.position.z-s.AstralObject.orbit.center.z)*Math.cos(s.AstralObject.orbit.angleV);
+  })
+}
+
 function setupObjectsList(objects){
   for(i=0;i<objects.length;i++){
     var object = objects[i];
@@ -277,6 +317,7 @@ $(document).ready(function () {
     CONTROLS.update(1)
     showMyPosition(camera.position)
     rotateSpheres(spheres)
+    rotateSpheresOrbits(spheres)
     renderer.render(scene, camera);
   }
 });
