@@ -35,3 +35,9 @@ html, body{
   left:30px;
   top:70px;
 }
+
+#playPauseSimulationButton{
+  position: absolute;
+  left:30px;
+  top:150px;
+}

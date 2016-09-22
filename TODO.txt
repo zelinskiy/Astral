@@ -9,3 +9,5 @@
 --Показывать других юзеров
 
 --lensFlare sun
+-- Option types
+-- restart simulation oncameramove

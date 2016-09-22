@@ -81,13 +81,13 @@ let private Earth = {
     Id = 1;
     Name="Earth";
     Lecture = "Earth is our home";
-    Position = { x=(-50.0); y=0.0; z=0.0; };
+    Position = { x=(-100.0); y=0.0; z=0.0; };
     Radius = 10.0;
     RotationVelocity = 0.003;
     Orbit = { 
             Center = { x=0.0; y=0.0; z=0.0; };
             RotationAngle = 0.0;
-            AngleVelocity = 0.01;
+            AngleVelocity = 0.001;
             Radius = 40.0;
         };
     IsLightSource = false;
@@ -98,13 +98,13 @@ let private Pluto = {
     Id = 2;
     Name="Pluto";    
     Lecture = "Pluto is merely a planet";
-    Position = { x=100.0; y=0.0; z=0.0; };
+    Position = { x=(-120.0); y=0.0; z=0.0; };
     Radius = 3.0;
     Orbit = { 
             Center = { x=0.0; y=0.0; z=0.0; };
             RotationAngle = 0.0;
-            AngleVelocity = 0.0;
-            Radius = 0.0;
+            AngleVelocity = 0.0015;
+            Radius = 10.0;
         };
     RotationVelocity = 0.015;
     IsLightSource = false;

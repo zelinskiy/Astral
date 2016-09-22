@@ -1,7 +1,8 @@
 var SIZE = 8/12;
 var CONTROLS;
 var FOCUS_DISTANCE_COEFF = 5;
-
+var SIMULATION_ACTIVE = true;
+var SPHERES;
 /*
 var _objects = [
   {
@@ -111,7 +112,7 @@ function loadSpheresOnScene(scene, camera){
     var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
     var sphereMaterial = new THREE.MeshLambertMaterial();
     if(object.isLightSource == true){
-      surroundAstralObjectWithLights(object, scene, 0xffffff, 0.5, 0)      
+      surroundAstralObjectWithLights(object, scene, 0xffffff, 0.5, 0)
     }
 
     var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
@@ -120,14 +121,13 @@ function loadSpheresOnScene(scene, camera){
     sphere.position.z = object.position.z;
     scene.add(sphere);
     sphere.AstralObject = object;
-
-
-
     return sphere;
   })
   camera.position.x = scene.position.x;
   camera.position.y = scene.position.y;
   camera.position.z = scene.position.z + 500;
+
+  SPHERES = spheres;
   return spheres;
 }
 
@@ -199,10 +199,17 @@ function setupMouseSelector(scene, camera){
 
 }
 
-function selectObject(id){
-  var object = loadAstralObject(id);
-  lookAtObject(object, 100);
-  loadLecture(object);
+var selectObject;
+
+function setupSelectObject(spheres){
+  selectObject = function(id){
+    SIMULATION_ACTIVE = false;
+    updatePlayPauseSimulationButton();
+    var object = spheres.find(function(s){return s.AstralObject.id == id;});
+    console.log(object);
+    lookAtObject(object, 100, object.AstralObject.r * FOCUS_DISTANCE_COEFF);
+    loadLecture(object.AstralObject);
+  }
 }
 
 function loadLecture(object){
@@ -210,11 +217,11 @@ function loadLecture(object){
   $("#object_text").html(object.lecture);
 }
 
-function lookAtObject(object, delay){
+function lookAtObject(object, dist, delay){
   setTimeout(function(){
-    CONTROLS.object.position.x = object.position.x;
+    CONTROLS.object.position.x = object.position.x + dist;
     CONTROLS.object.position.y = object.position.y;
-    CONTROLS.object.position.z = object.position.z + (object.r * FOCUS_DISTANCE_COEFF);
+    CONTROLS.object.position.z = object.position.z;
     CONTROLS.target.set(
       object.position.x,
       object.position.y,
@@ -262,6 +269,7 @@ function rotateSpheres(spheres){
 }
 
 function rotateSpheresOrbits(spheres){
+  if(SIMULATION_ACTIVE == false) return;
   spheres.map(function(s){
     s.position.x = s.AstralObject.orbit.center.x
       + (s.position.x - s.AstralObject.orbit.center.x)*Math.cos(s.AstralObject.orbit.angleV)
@@ -287,6 +295,14 @@ function setupObjectsList(objects){
   }
 }
 
+function toggleSimulationActive(){
+  SIMULATION_ACTIVE = !SIMULATION_ACTIVE;
+}
+
+function updatePlayPauseSimulationButton(){
+  $("#playPauseSimulationButton").html(SIMULATION_ACTIVE?"❚❚":"►")
+}
+
 $(document).ready(function () {
   //Setting up variables
   var domElem = document.getElementById("WebGL-output");
@@ -310,6 +326,7 @@ $(document).ready(function () {
   loadManyTextures(spheres.slice(), render, texloader)
   showLightsOnScene(scene);
   setupObjectsList(spheres.slice().map(function(s){ return s.AstralObject; }))
+  setupSelectObject(spheres.slice())
 
   //Our loop
   function render() {
