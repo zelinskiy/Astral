@@ -41,3 +41,8 @@ html, body{
   left:30px;
   top:150px;
 }
+
+.systemPictureImage{
+  max-width: 450px;
+  max-height: 250px;
+}

@@ -6,12 +6,14 @@ function setupList(systems){
       + "<div class=\"col-md-5\"><a href=\"/system/"
       + system.id
       + "\">"
-      + "<img src=\"" +
+      + "<img class=\"systemPictureImage\" src=\"" +
       system.picture
       + "\"/>"
       + "</a></div>"
       + "<div class=\"system_description col-md-7\">"
-      + "<h3>SYSTEM DESC</h3>"
+      + "<h3>"
+      + system.description
+      + "</h3>"
       + "</div></div></div>"
       )
   }

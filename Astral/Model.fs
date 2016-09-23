@@ -63,6 +63,9 @@ type AstralSystem = {
     [<field: DataMember(Name="name")>]
     Name:string;
 
+    [<field: DataMember(Name="description")>]
+    Description:string;
+
     [<field: DataMember(Name="elements")>]
     ElementsIds:array<int>;
 
@@ -151,7 +154,7 @@ let private Mars = {
 let private Jupiter = {
     Id = 6;
     Name="Jupiter";    
-    Lecture = "Mars is a warrior";
+    Lecture = "Jupiter is a wizard";
     Position = { x=220.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -224,16 +227,117 @@ let private Pluto = {
     Texture = "/client/pictures/pluto_texture.jpg";
 }
 
-
-
-
-
-
 let SolarSystem = {
-    Name="Solar System";
-    ElementsIds = [| 1..10 |];
     Id = 1;
+    Name="Solar System";
+    Description = "Only planets"
+    ElementsIds = [| 1..10 |];
     Picture = "/client/pictures/solar_system.jpg";
+}
+
+
+
+
+
+let private PtolemeyEarth = { 
+    Earth with
+        Id = 11;
+        Position = { x=0.0; y=0.0; z=0.0; };
+        Orbit = { 
+                Center = { x=0.0; y=0.0; z=0.0; }
+                AngleVelocity = 0.0;
+            };
+        RotationVelocity = 0.0;
+    }
+
+
+let private PtolemeyMoon = {
+    Id = 12;
+    Name="Moon";    
+    Lecture = "Moon is our neariest neighbour";
+    Position = { x=100.0; y=0.0; z=0.0; };
+    Radius = 7.0;
+    Orbit = { 
+            Center = PtolemeyEarth.Position;
+            AngleVelocity = 0.0005;
+        };
+    RotationVelocity = 0.0;
+    IsLightSource = false;
+    Texture = "/client/pictures/moon_texture.jpg";
+}
+
+let private PtolemeyMercury = { 
+    Mercury with
+        Id = 13;
+        Position = { x=150.0; y=0.0; z=0.0; };
+        Orbit = { 
+                Center = PtolemeyEarth.Position;
+                AngleVelocity = 0.0003;
+            };
+        RotationVelocity = 0.0;
+    }
+
+let private PtolemeyVenus = { 
+    Venus with
+        Id = 14;
+        Position = { x=200.0; y=0.0; z=0.0; };
+        Orbit = { 
+                Center = PtolemeyEarth.Position;
+                AngleVelocity = 0.00035;
+            };
+        RotationVelocity = 0.0;
+    }
+
+let private PtolemeySun = { 
+    Sun with 
+        Id = 15;
+        Position = { x=250.0; y=0.0; z=0.0; };
+        Orbit = { 
+                Center = { x=0.0; y=0.0; z=0.0; };
+                AngleVelocity = 0.0004;
+            };
+    }
+
+let private PtolemeyMars = { 
+    Mars with
+        Id = 16;
+        Position = { x=300.0; y=0.0; z=0.0; };
+        Orbit = { 
+                Center = PtolemeyEarth.Position;
+                AngleVelocity = 0.00025;
+            };
+        RotationVelocity = 0.0;
+    }
+
+let private PtolemeyJupiter = { 
+    Jupiter with
+        Id = 17;
+        Position = { x=350.0; y=0.0; z=0.0; };
+        Orbit = { 
+                Center = PtolemeyEarth.Position;
+                AngleVelocity = 0.0002;
+            };
+        RotationVelocity = 0.0;
+    }
+
+let private PtolemeySaturn = { 
+    Saturn with
+        Id = 18;
+        Position = { x=400.0; y=0.0; z=0.0; };
+        Orbit = { 
+                Center = PtolemeyEarth.Position;
+                AngleVelocity = 0.00015;
+            };
+        RotationVelocity = 0.0;
+    }
+
+
+let PtolemeySystem = {
+    Id = 2;
+    Name="Ptolemey System";
+    Description = "Only planets in geocentryc order"
+    ElementsIds = [| 11..18 |];
+    Picture = "/client/pictures/ptolemey_system.jpg";
 }
 
 type DB = 
@@ -248,8 +352,17 @@ type DB =
         Uranus;
         Neptune;
         Pluto;
+
+        PtolemeyEarth;
+        PtolemeyMoon;
+        PtolemeyMercury;
+        PtolemeyVenus;        
+        PtolemeySun;
+        PtolemeyMars;
+        PtolemeyJupiter;
+        PtolemeySaturn;
         |]
-    static member AstralSystems = [| SolarSystem |]
+    static member AstralSystems = [| SolarSystem; PtolemeySystem |]
 
     static member findObject (id:int) = 
         Seq.tryFind (fun (e:AstralObject) -> e.Id = id) DB.AstralObjects

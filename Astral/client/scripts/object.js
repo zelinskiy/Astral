@@ -112,16 +112,15 @@ function loadSpheresOnScene(scene, camera){
   var spheres = objects.map(function(object){
     var sphereGeometry = new THREE.SphereGeometry(object.r, 32, 32)
     var sphereMaterial = new THREE.MeshLambertMaterial();
-    if(object.isLightSource == true){
-      surroundAstralObjectWithLights(object, scene, 0xffffff, 0.5, 0)
-    }
-
     var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.x = object.position.x;
     sphere.position.y = object.position.y;
     sphere.position.z = object.position.z;
     scene.add(sphere);
     sphere.AstralObject = object;
+    if(object.isLightSource == true){
+      surroundObjectWithLights(sphere, scene,  object.r + (2 * object.r))
+    }
     return sphere;
   })
   camera.position.x = scene.position.x;
@@ -132,26 +131,36 @@ function loadSpheresOnScene(scene, camera){
   return spheres;
 }
 
-function surroundAstralObjectWithLights(object, scene, color, intensity, distance){
-  var d = object.r + (2 * object.r);
-  var light1 = new THREE.PointLight(color, intensity, distance);
+function surroundObjectWithLights(object, scene, distance){
+  var color = 0xffffff;
+  var intensity = 0.5;
+  var d = distance;
+  var light1 = new THREE.PointLight(color, intensity, 0);
   light1.position.set(object.position.x + d, object.position.y, object.position.z + d);
+  object.add(light1);
   scene.add(light1);
-  var light2 = new THREE.PointLight(color, intensity, distance);
+  var light2 = new THREE.PointLight(color, intensity, 0);
   light2.position.set(object.position.x - d, object.position.y, object.position.z + d);
+  object.add(light2);
   scene.add(light2);
-  var light3 = new THREE.PointLight(color, intensity, distance);
+  var light3 = new THREE.PointLight(color, intensity, 0);
   light3.position.set(object.position.x + d, object.position.y, object.position.z - d);
+  object.add(light3);
   scene.add(light3);
-  var light4 = new THREE.PointLight(color, intensity, distance);
+  var light4 = new THREE.PointLight(color, intensity, 0);
   light4.position.set(object.position.x - d, object.position.y, object.position.z - d);
+  object.add(light4);
   scene.add(light4);
-  var light5 = new THREE.PointLight(color, intensity, distance);
+  var light5 = new THREE.PointLight(color, intensity, 0);
   light5.position.set(object.position.x, object.position.y + d, object.position.z);
+  object.add(light5);
   scene.add(light5);
-  var light6 = new THREE.PointLight(color, intensity, distance);
+  var light6 = new THREE.PointLight(color, intensity, 0);
   light6.position.set(object.position.x, object.position.y - d, object.position.z);
+  object.add(light6);
   scene.add(light6);
+
+
 }
 
 function showLightsOnScene(scene){
@@ -293,7 +302,7 @@ function setupObjectsList(objects){
 
 function toggleSimulationActive(){
   SIMULATION_ACTIVE = !SIMULATION_ACTIVE;
-  updatePlayPauseSimulationButton();  
+  updatePlayPauseSimulationButton();
 }
 
 function updatePlayPauseSimulationButton(){
