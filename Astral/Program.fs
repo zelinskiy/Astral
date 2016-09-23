@@ -44,7 +44,6 @@ let app =
 
 [<EntryPoint>]
 let main argv = 
-    printfn "Starting server at 8083..."
     startWebServer defaultConfig app
     0
 

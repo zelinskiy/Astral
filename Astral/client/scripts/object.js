@@ -65,6 +65,7 @@ function loadAstralSystem(id){
   return res;
 }
 
+//RECURSIVE
 function loadManyTextures(spheres, render, texloader){
   if(spheres.length == 0) {
     render();
@@ -154,10 +155,6 @@ function surroundAstralObjectWithLights(object, scene, color, intensity, distanc
 }
 
 function showLightsOnScene(scene){
-  var spotLight1 = new THREE.SpotLight( 0xffffff );
-  spotLight1.position.set( -40, 60, -10 );
-  //scene.add(spotLight1);
-
   var HemisphereLight = new THREE.AmbientLight( 0xffffff, 0.4);
   scene.add(HemisphereLight);
 }
@@ -178,12 +175,12 @@ function setupMouseSelector(scene, camera){
         $("#objectNameLabel").html("")
       }
     });
-    for (var i = 0; i < intersects.length; i++) {
-      var sphere = intersects[i].object;
+    var intersect = intersects.find(function(){return true;})
+    if(intersect !== undefined){
+      var sphere = intersect.object;
       sphere.material.color.set( 0xffff00 );
       $("#objectNameLabel").html(sphere.AstralObject.name)
     }
-
   }
 
   function onMouseDown( event ) {
@@ -207,7 +204,8 @@ function setupSelectObject(spheres){
     updatePlayPauseSimulationButton();
     var object = spheres.find(function(s){return s.AstralObject.id == id;});
     console.log(object);
-    lookAtObject(object, 100, object.AstralObject.r * FOCUS_DISTANCE_COEFF);
+    lookAtObject(object, 100, object.AstralObject.r);
+    console.log(object.AstralObject.r)
     loadLecture(object.AstralObject);
   }
 }

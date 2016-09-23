@@ -46,6 +46,7 @@ type AstralObject ={
     [<field: DataMember(Name="rotV")>]
     RotationVelocity:double;
 
+    //TODO: Option<OrbitParameters>
     [<field: DataMember(Name="orbit")>]
     Orbit: OrbitParameters;
 
@@ -98,18 +99,36 @@ let private Pluto = {
     Id = 2;
     Name="Pluto";    
     Lecture = "Pluto is merely a planet";
-    Position = { x=(-120.0); y=0.0; z=0.0; };
+    Position = { x=(-150.0); y=0.0; z=0.0; };
     Radius = 3.0;
     Orbit = { 
             Center = { x=0.0; y=0.0; z=0.0; };
             RotationAngle = 0.0;
             AngleVelocity = 0.0015;
-            Radius = 10.0;
+            Radius = 15.0;
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
     Texture = "/client/pictures/pluto_texture.jpg";
 }
+
+let private Mars = {
+    Id = 4;
+    Name="Mars";    
+    Lecture = "Mars is a warrior";
+    Position = { x=(-135.0); y=0.0; z=0.0; };
+    Radius = 7.0;
+    Orbit = { 
+            Center = { x=0.0; y=0.0; z=0.0; };
+            RotationAngle = 0.0;
+            AngleVelocity = 0.0015;
+            Radius = 30.0;
+        };
+    RotationVelocity = 0.05;
+    IsLightSource = false;
+    Texture = "/client/pictures/mars_texture.jpg";
+}
+
 
 let private Sun = {
     Id = 3;
@@ -132,13 +151,13 @@ let private Sun = {
 
 let SolarSystem = {
     Name="Solar System";
-    ElementsIds = [| 1; 2; 3 |];
+    ElementsIds = [| 1; 2; 3; 4 |];
     Id = 1;
     Picture = "/client/pictures/solar_system.jpg";
 }
 
 type DB = 
-    static member AstralObjects = [| Earth; Pluto; Sun |]
+    static member AstralObjects = [| Earth; Pluto; Sun; Mars |]
     static member AstralSystems = [| SolarSystem |]
 
     static member findObject (id:int) = 
