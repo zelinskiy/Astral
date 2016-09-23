@@ -203,9 +203,7 @@ function setupSelectObject(spheres){
     SIMULATION_ACTIVE = false;
     updatePlayPauseSimulationButton();
     var object = spheres.find(function(s){return s.AstralObject.id == id;});
-    console.log(object);
-    lookAtObject(object, 100, object.AstralObject.r);
-    console.log(object.AstralObject.r)
+    lookAtObject(object, 100, object.AstralObject.r * FOCUS_DISTANCE_COEFF);
     loadLecture(object.AstralObject);
   }
 }
@@ -215,7 +213,7 @@ function loadLecture(object){
   $("#object_text").html(object.lecture);
 }
 
-function lookAtObject(object, dist, delay){
+function lookAtObject(object, delay, dist){
   setTimeout(function(){
     CONTROLS.object.position.x = object.position.x + dist;
     CONTROLS.object.position.y = object.position.y;
@@ -295,10 +293,11 @@ function setupObjectsList(objects){
 
 function toggleSimulationActive(){
   SIMULATION_ACTIVE = !SIMULATION_ACTIVE;
+  updatePlayPauseSimulationButton();  
 }
 
 function updatePlayPauseSimulationButton(){
-  $("#playPauseSimulationButton").html(SIMULATION_ACTIVE?"❚❚":"►")
+  $("#playPauseSimulationButton").html(SIMULATION_ACTIVE?"►":"❚❚")
 }
 
 $(document).ready(function () {
