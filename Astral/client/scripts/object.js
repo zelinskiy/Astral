@@ -125,11 +125,16 @@ var loadLecture = function() {  }
 var loadDescription = function() {  }
 var loadDiscussion = function() {  }
 var loadAskQuestion = function() {  }
+var loadTest = function() {  }
 
 function unselectAllBookmarks(){
   $(".bookmark").each(function() {
     $(this).toggleClass("active", false);
   });
+}
+
+function loadDiscussionHtml(messages){
+
 }
 
 function setupBookmarksHandlers(object){
@@ -156,6 +161,12 @@ function setupBookmarksHandlers(object){
     $("#object_name").html(object.name);
     $("#object_text").html("Questions for " + object.name);
     $("#askQuestionBookmark").toggleClass("active", true);
+  }
+  loadTest = function(){
+    unselectAllBookmarks()
+    $("#object_name").html(object.name);
+    $("#object_text").html("Test for " + object.name);
+    $("#testBookmark").toggleClass("active", true);
   }
 }
 
@@ -346,7 +357,6 @@ function setupWASDQE(domElem, controls, speed){
   }
   window.onkeydown = onKeyDown;
 }
-
 
 function setupControls(camera, domElem){
   CONTROLS = new THREE.OrbitControls (camera, domElem)
