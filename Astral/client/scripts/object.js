@@ -37,7 +37,7 @@ var system = [
 ]
 */
 
-function loadLectureHtml(path){
+function loadHtml(path){
   var res;
   $.ajax({
     async: false,
@@ -136,13 +136,13 @@ function setupBookmarksHandlers(object){
   loadLecture = function(){
     unselectAllBookmarks()
     $("#object_name").html(object.name);
-    $("#object_text").html(loadLectureHtml(object.lecture));
+    $("#object_text").html(loadHtml(object.lecture));
     $("#lectureBookmark").toggleClass("active", true);
   }
   loadDescription = function(){
     unselectAllBookmarks()
     $("#object_name").html(object.name);
-    $("#object_text").html("Desc for " + object.name);
+    $("#object_text").html(loadHtml(object.description));
     $("#descriptionBookmark").toggleClass("active", true);
   }
   loadDiscussion = function(){

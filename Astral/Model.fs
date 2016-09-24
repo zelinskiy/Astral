@@ -33,6 +33,9 @@ type AstralObject ={
     [<field: DataMember(Name="name")>]
     Name:string;
 
+    [<field: DataMember(Name="description")>]
+    Description:string;
+
     [<field: DataMember(Name="lecture")>]
     Lecture:string;
 
@@ -80,6 +83,7 @@ let private Sun = {
     Id = 1
     Name="Солнце"
     Lecture = "/client/lectures/sun_lecture.html"
+    Description = "/client/descriptions/sun_desc.html"
     Position = { x=00.0; y=0.0; z=0.0; }
     Radius = 20.0
     Orbit = { 
@@ -98,6 +102,7 @@ let private Mercury = {
     Id = 2;
     Name="Меркурий";
     Lecture = "/client/lectures/mercury_lecture.html";
+    Description = "/client/descriptions/mercury_desc.html"
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -114,6 +119,7 @@ let private Venus = {
     Id = 3;
     Name="Венера";
     Lecture = "/client/lectures/venus_lecture.html";
+    Description = "/client/descriptions/venus_desc.html"
     Position = { x=130.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
@@ -131,6 +137,7 @@ let private Earth = {
     Id = 4;
     Name="Земля";
     Lecture = "/client/lectures/earth_lecture.html";
+    Description = "/client/descriptions/earth_desc.html"
     Position = { x=160.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
@@ -147,6 +154,7 @@ let private Mars = {
     Id = 5;
     Name="Марс";    
     Lecture = "/client/lectures/mars_lecture.html";
+    Description = "/client/descriptions/mars_desc.html"
     Position = { x=190.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -163,6 +171,7 @@ let private Jupiter = {
     Id = 6;
     Name="Юпитер";    
     Lecture = "/client/lectures/jupiter_lecture.html";
+    Description = "/client/descriptions/jupiter_desc.html"
     Position = { x=220.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -179,6 +188,7 @@ let private Saturn = {
     Id = 7;
     Name="Сатурн";    
     Lecture = "Saturn lect";
+    Description = "/client/descriptions/saturn_desc.html"
     Position = { x=250.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -195,6 +205,7 @@ let private Uranus = {
     Id =8;
     Name="Уран";    
     Lecture = "/client/lectures/uranus_lecture.html";
+    Description = "/client/descriptions/uranus_desc.html"
     Position = { x=280.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -211,6 +222,7 @@ let private Neptune = {
     Id = 9;
     Name="Нептун";    
     Lecture = "/client/lectures/neptune_lecture.html";
+    Description = "/client/descriptions/neptune_desc.html"
     Position = { x=310.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -228,6 +240,7 @@ let private Pluto = {
     Id = 10;
     Name="Плутон";    
     Lecture = "/client/lectures/pluto_lecture.html";
+    Description = "/client/descriptions/pluto_desc.html"
     Position = { x=340.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -269,6 +282,7 @@ let private PtolemeyMoon = {
     Id = 12;
     Name="Луна";    
     Lecture = "/client/lectures/moon_lecture.html";
+    Description = "/client/descriptions/sun_desc.html"
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
