@@ -303,12 +303,46 @@ function lookAt(camera, targetPosition) {
     camera.rotateOnAxis(rotationAxis, angle);
 }
 
+function _setupWASDQE(controls, speed){
+  function onKeyDown( event ) {
+    switch(event.keyCode){
+      //W
+      case 87:
+        controls.object.position.z -= speed;
+        break;
+      //S
+      case 83:
+        controls.object.position.z += speed;
+        break;
+      //A
+      case 65:
+        controls.object.position.x -= speed;
+        break;
+      //S
+      case 68:
+        controls.object.position.x += speed;
+        break;
+      //Q
+      case 81:
+        controls.object.position.y -= speed;
+        break;
+      //E
+      case 69:
+        controls.object.position.y += speed;
+        break;
+    }
+  }
+  window.onkeydown = onKeyDown;
+}
+
+
 function setupControls(camera, domElem){
   CONTROLS = new THREE.OrbitControls (camera, domElem)
   CONTROLS.mouseButtons = {
     ORBIT: THREE.MOUSE.RIGHT,
     ZOOM: THREE.MOUSE.MIDDLE,
     PAN: THREE.MOUSE.LEFT };
+  setupWASDQE(CONTROLS, 10);
 }
 
 function rotateSpheres(spheres){
