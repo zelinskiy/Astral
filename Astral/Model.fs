@@ -292,7 +292,7 @@ let private PtolemeyVenus = {
 let private PtolemeySun = { 
     Sun with 
         Id = 15
-        Position = { x=250.0; y=0.0; z=0.0; }
+        Position = { x=400.0; y=0.0; z=0.0; }
         Orbit = { 
                 Center = { x=0.0; y=0.0; z=0.0; }
                 AngleVelocity = 0.0004
@@ -302,7 +302,7 @@ let private PtolemeySun = {
 let private PtolemeyMars = { 
     Mars with
         Id = 16
-        Position = { x=300.0; y=0.0; z=0.0; }
+        Position = { x=600.0; y=0.0; z=0.0; }
         Orbit = { 
                 Center = PtolemeyEarth.Position
                 AngleVelocity = 0.00025
@@ -313,7 +313,7 @@ let private PtolemeyMars = {
 let private PtolemeyJupiter = { 
     Jupiter with
         Id = 17
-        Position = { x=350.0; y=0.0; z=0.0; };
+        Position = { x=650.0; y=0.0; z=0.0; };
         Orbit = { 
                 Center = PtolemeyEarth.Position
                 AngleVelocity = 0.0002
@@ -324,7 +324,7 @@ let private PtolemeyJupiter = {
 let private PtolemeySaturn = { 
     Saturn with
         Id = 18
-        Position = { x=400.0; y=0.0; z=0.0; }
+        Position = { x=700.0; y=0.0; z=0.0; }
         Orbit = { 
                 Center = PtolemeyEarth.Position
                 AngleVelocity = 0.00015

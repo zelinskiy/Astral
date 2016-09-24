@@ -133,7 +133,6 @@ function unselectAllBookmarks(){
 }
 
 function setupBookmarksHandlers(object){
-
   loadLecture = function(){
     unselectAllBookmarks()
     $("#object_name").html(object.name);
@@ -186,32 +185,26 @@ function loadSpheresOnScene(scene, camera){
 
 function surroundObjectWithLights(object, scene, distance){
   var color = 0xffffff;
-  var intensity = 0.5;
+  var intensity = 0.4;
   var d = distance;
   var light1 = new THREE.PointLight(color, intensity, 0);
-  light1.position.set(object.position.x + d, object.position.y, object.position.z + d);
+  light1.position.set(d, 0, 0);
   object.add(light1);
-  scene.add(light1);
   var light2 = new THREE.PointLight(color, intensity, 0);
-  light2.position.set(object.position.x - d, object.position.y, object.position.z + d);
+  light2.position.set(-d, 0, 0);
   object.add(light2);
-  scene.add(light2);
   var light3 = new THREE.PointLight(color, intensity, 0);
-  light3.position.set(object.position.x + d, object.position.y, object.position.z - d);
+  light3.position.set(0, d, 0);
   object.add(light3);
-  scene.add(light3);
   var light4 = new THREE.PointLight(color, intensity, 0);
-  light4.position.set(object.position.x - d, object.position.y, object.position.z - d);
+  light4.position.set(0, -d, 0);
   object.add(light4);
-  scene.add(light4);
   var light5 = new THREE.PointLight(color, intensity, 0);
-  light5.position.set(object.position.x, object.position.y + d, object.position.z);
+  light5.position.set(0, 0, d);
   object.add(light5);
-  scene.add(light5);
   var light6 = new THREE.PointLight(color, intensity, 0);
-  light6.position.set(object.position.x, object.position.y - d, object.position.z);
+  light6.position.set(0, 0, -d);
   object.add(light6);
-  scene.add(light6);
 
 
 }
