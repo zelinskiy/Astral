@@ -1,13 +1,14 @@
 
---Model types inheritance(or nesting records?)
---Immutability
---Видосы/Картинки в лекции
---Музло
---Статьи (базовая + доп материалы)
---Вопросы(чат/обсуждения)
---Раздел тестирования (награды)
---Показывать других юзеров
+++ Model types inheritance(or nesting records?)
+++ Immutability
+++ Видосы/Картинки в лекции
+-- Музло
+-- Статьи (базовая + доп материалы)
+-- Вопросы(чат/обсуждения)
+-- Раздел тестирования (награды)
+REJECTED Показывать других юзеров
 
---lensFlare sun
+-- lensFlare sun
 -- Option types
 -- restart simulation oncameramove
+-- better WASD
