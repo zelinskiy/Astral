@@ -31,6 +31,14 @@
   <p id="positionLabel">X Y Z</p>
   <p id="objectNameLabel"></p>
 
+  <button id="toggleHelpControlsButton" class="btn" onclick="toggleHelpControls()">?</button>
+
+  <div id="helpControls" class="well row" onclick="hideHelpControls()">
+    <img class="col-md-4 helpControlsImage" src="/client/pictures/tutorial1.jpg"/>
+    <img class="col-md-4 helpControlsImage" src="/client/pictures/tutorial2.jpg"/>
+    <img class="col-md-4 helpControlsImage" src="/client/pictures/tutorial3.jpg"/>
+  </div>
+
   <div class="row">
     <div class="well pull-right col-md-4" id="object_information">
       <h3 id="object_name">Object</h3>
@@ -44,6 +52,8 @@
   </div>
 
   <canvas id="WebGL-output"></canvas>
+
+
 
 
 

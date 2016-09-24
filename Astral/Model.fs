@@ -20,7 +20,9 @@ type OrbitParameters = {
     [<field: DataMember(Name="center")>]
     Center:Point;
     [<field: DataMember(Name="angleV")>]
-    AngleVelocity:double; 
+    AngleVelocity:double;
+    [<field: DataMember(Name="color")>]
+    Color:string; 
 }
 
 [<DataContract(Name = "root")>]
@@ -75,31 +77,33 @@ type AstralSystem = {
 }
 
 let private Sun = {
-    Id = 1;
-    Name="Sun";    
-    Lecture = "/client/lectures/sun_lecture.html";
-    Position = { x=00.0; y=0.0; z=0.0; };
-    Radius = 20.0;
+    Id = 1
+    Name="Солнце"
+    Lecture = "/client/lectures/sun_lecture.html"
+    Position = { x=00.0; y=0.0; z=0.0; }
+    Radius = 20.0
     Orbit = { 
-            Center = { x=0.0; y=0.0; z=0.0; };
-            AngleVelocity = 0.0;
-        };
-    RotationVelocity = 0.0;
-    IsLightSource = true;
-    Texture = "/client/pictures/sun_texture.jpg";
+            Center = { x=0.0; y=0.0; z=0.0; }
+            AngleVelocity = 0.0
+            Color = "#DEF266"
+        }
+    RotationVelocity = 0.0
+    IsLightSource = true
+    Texture = "/client/pictures/sun_texture.jpg"
 }
 
     
     
 let private Mercury = {
     Id = 2;
-    Name="Mercury";
+    Name="Меркурий";
     Lecture = "/client/lectures/mercury_lecture.html";
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.005;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.003;
     IsLightSource = false;
@@ -108,13 +112,14 @@ let private Mercury = {
 
 let private Venus = {
     Id = 3;
-    Name="Venus";
+    Name="Венера";
     Lecture = "/client/lectures/venus_lecture.html";
     Position = { x=130.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.004;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.003;
     IsLightSource = false;
@@ -124,13 +129,14 @@ let private Venus = {
 
 let private Earth = {
     Id = 4;
-    Name="Earth";
+    Name="Земля";
     Lecture = "/client/lectures/earth_lecture.html";
     Position = { x=160.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.0035;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.0015;
     IsLightSource = false;
@@ -139,13 +145,14 @@ let private Earth = {
 
 let private Mars = {
     Id = 5;
-    Name="Mars";    
+    Name="Марс";    
     Lecture = "/client/lectures/mars_lecture.html";
     Position = { x=190.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.003;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -154,13 +161,14 @@ let private Mars = {
 
 let private Jupiter = {
     Id = 6;
-    Name="Jupiter";    
+    Name="Юпитер";    
     Lecture = "/client/lectures/jupiter_lecture.html";
     Position = { x=220.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.0025;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -169,13 +177,14 @@ let private Jupiter = {
 
 let private Saturn = {
     Id = 7;
-    Name="Saturn";    
+    Name="Сатурн";    
     Lecture = "Saturn lect";
     Position = { x=250.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.0020;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -184,13 +193,14 @@ let private Saturn = {
 
 let private Uranus = {
     Id =8;
-    Name="Uranus";    
+    Name="Уран";    
     Lecture = "/client/lectures/uranus_lecture.html";
     Position = { x=280.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.0015;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -199,13 +209,14 @@ let private Uranus = {
 
 let private Neptune = {
     Id = 9;
-    Name="Neptune";    
+    Name="Нептун";    
     Lecture = "/client/lectures/neptune_lecture.html";
     Position = { x=310.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.001;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -215,13 +226,14 @@ let private Neptune = {
 
 let private Pluto = {
     Id = 10;
-    Name="Pluto";    
+    Name="Плутон";    
     Lecture = "/client/lectures/pluto_lecture.html";
     Position = { x=340.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.0005;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -230,8 +242,8 @@ let private Pluto = {
 
 let SolarSystem = {
     Id = 1;
-    Name="Solar System";
-    Description = "Only planets"
+    Name="Солнечная Система";
+    Description = "Гелиоцентрическая модель планет"
     ElementsIds = [| 1..10 |];
     Picture = "/client/pictures/solar_system.jpg";
 }
@@ -247,6 +259,7 @@ let private PtolemeyEarth = {
         Orbit = { 
                 Center = { x=0.0; y=0.0; z=0.0; }
                 AngleVelocity = 0.0;
+                Color = "#DEF266"
             };
         RotationVelocity = 0.0;
     }
@@ -254,13 +267,14 @@ let private PtolemeyEarth = {
 
 let private PtolemeyMoon = {
     Id = 12;
-    Name="Moon";    
+    Name="Луна";    
     Lecture = "/client/lectures/moon_lecture.html";
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
             Center = PtolemeyEarth.Position;
             AngleVelocity = 0.0005;
+            Color = "#DEF266"
         };
     RotationVelocity = 0.0;
     IsLightSource = false;
@@ -274,6 +288,7 @@ let private PtolemeyMercury = {
         Orbit = { 
                 Center = PtolemeyEarth.Position;
                 AngleVelocity = 0.0003;
+                Color = "#DEF266"
             };
         RotationVelocity = 0.0;
     }
@@ -285,6 +300,7 @@ let private PtolemeyVenus = {
         Orbit = { 
                 Center = PtolemeyEarth.Position
                 AngleVelocity = 0.00035
+                Color = "#DEF266"
             }
         RotationVelocity = 0.0
     }
@@ -296,6 +312,7 @@ let private PtolemeySun = {
         Orbit = { 
                 Center = { x=0.0; y=0.0; z=0.0; }
                 AngleVelocity = 0.0004
+                Color = "#DEF266"
             }
     }
 
@@ -306,6 +323,7 @@ let private PtolemeyMars = {
         Orbit = { 
                 Center = PtolemeyEarth.Position
                 AngleVelocity = 0.00025
+                Color = "#DEF266"
             }
         RotationVelocity = 0.0
     }
@@ -317,6 +335,7 @@ let private PtolemeyJupiter = {
         Orbit = { 
                 Center = PtolemeyEarth.Position
                 AngleVelocity = 0.0002
+                Color = "#DEF266"
             }
         RotationVelocity = 0.0
     }
@@ -328,6 +347,7 @@ let private PtolemeySaturn = {
         Orbit = { 
                 Center = PtolemeyEarth.Position
                 AngleVelocity = 0.00015
+                Color = "#DEF266"
             }
         RotationVelocity = 0.0
     }
@@ -335,8 +355,8 @@ let private PtolemeySaturn = {
 
 let PtolemeySystem = {
     Id = 2;
-    Name="Ptolemey System"
-    Description = "Only planets in geocentryc order"
+    Name="Птолемеева Система"
+    Description = "Геоцентрическая модель расположения планет"
     ElementsIds = [| 11..18 |]
     Picture = "/client/pictures/ptolemey_system.jpg"
 }
@@ -344,15 +364,15 @@ let PtolemeySystem = {
 let RubinSun = {
     Sun with 
         Id = 30
-        Name = "Rubin"
+        Name = "Рубин"
         Lecture = "/client/lectures/rubin_lecture.html"
         Texture = "/client/pictures/rubin_texture.jpg"
     }
 
 let RubinSystem = {
     Id = 3;
-    Name="Rubin System";
-    Description = "What if Rubin was shining instead of the Sun?"
+    Name="Система Рубина";
+    Description = "Что если бы на небе вместо Солнца светил Рубин?"
     ElementsIds = Array.concat [ [| 2..10 |]; [| 30 |] ]
     Picture = "/client/pictures/rubin_system.jpg";
 } 

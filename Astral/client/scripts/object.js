@@ -214,6 +214,12 @@ function showLightsOnScene(scene){
   scene.add(HemisphereLight);
 }
 
+function isNodeAstralObject(node){
+  return node !== undefined
+      && node.object !== undefined
+      && node.object.AstralObject !== undefined
+}
+
 function setupMouseSelector(scene, camera){
   var raycaster = new THREE.Raycaster();
   var mouse = new THREE.Vector2();
@@ -231,7 +237,7 @@ function setupMouseSelector(scene, camera){
       }
     });
     var intersect = intersects.find(function(){return true;})
-    if(intersect !== undefined){
+    if(isNodeAstralObject(intersect)){
       var sphere = intersect.object;
       sphere.material.color.set( 0xffff00 );
       $("#objectNameLabel").html(sphere.AstralObject.name)
@@ -242,9 +248,9 @@ function setupMouseSelector(scene, camera){
     if(event.which !== 1) { return; }
     raycaster.setFromCamera( mouse, camera );
     var intersects = raycaster.intersectObjects( scene.children );
-    var selected_object = intersects.find(function(){return true;})
-    if(selected_object !== undefined){
-      selectObject(selected_object.object.AstralObject.id)
+    var intersect = intersects.find(function(){return true;})
+    if(isNodeAstralObject(intersect)){
+      selectObject(intersect.object.AstralObject.id)
     }
   }
   window.addEventListener( 'mousemove', onMouseMove, false );
@@ -393,12 +399,47 @@ function updatePlayPauseSimulationButton(){
   $("#playPauseSimulationButton").html(SIMULATION_ACTIVE?"►":"❚❚")
 }
 
+function toggleHelpControls(){
+  $("#helpControls").toggle();
+}
+
+function hideHelpControls(){
+  $("#helpControls").hide();
+}
+
+function distanceBetween(a, b){
+  return Math.sqrt(
+      (a.x-b.x)*(a.x-b.x)
+    + (a.y-b.y)*(a.y-b.y)
+    + (a.z-b.z)*(a.z-b.z)
+  );
+}
+
+function drawOrbitsLines(scene, objects){
+  for(var i=0; i< objects.length; i++){
+    var object = objects[i];
+    if(object.orbit.angleV == 0){ continue; }
+    var material = new THREE.LineBasicMaterial( { color: new THREE.Color(object.orbit.color) } )
+    var radius = distanceBetween(object.position, object.orbit.center);
+    var geometry = new THREE.CircleGeometry( radius, radius / 2 )
+    geometry.vertices.shift();
+    var line = new THREE.Line( geometry, material )
+    line.position.set(
+      object.orbit.center.x,
+      object.orbit.center.y,
+      object.orbit.center.z
+    );
+    line.rotation.x = Math.PI / 2;
+    scene.add(line);
+  }
+}
+
 $(document).ready(function () {
   //Setting up variables
   var domElem = document.getElementById("WebGL-output");
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(45
-    , window.innerWidth * SIZE / window.innerHeight , 0.1, 1000);
+    , window.innerWidth * SIZE / window.innerHeight , 0.1, 50000);
   camera.lookAt(scene.position);
   var renderer = new THREE.WebGLRenderer({
     canvas: domElem,
@@ -413,6 +454,7 @@ $(document).ready(function () {
   setupControls(camera, domElem);
   setupMouseSelector(scene, camera);
   var spheres = loadSpheresOnScene(scene, camera);
+  drawOrbitsLines(scene, spheres.slice().map(function(s){ return s.AstralObject; }), 0x0000ff)
   loadManyTextures(spheres.slice(), render, texloader)
   showLightsOnScene(scene);
   setupObjectsList(spheres.slice().map(function(s){ return s.AstralObject; }))
