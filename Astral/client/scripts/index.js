@@ -1,4 +1,4 @@
-function setupList(systems){
+function oldSetupList(systems){
   for(i=0; i<systems.length; i++){
     var system = systems[i]
     $("#systemsList").append(""
@@ -18,6 +18,27 @@ function setupList(systems){
       )
   }
 }
+
+function setupList(systems){
+  for(i=0; i<systems.length; i++){
+    var system = systems[i]
+    $("#systemsList").append(""
+      +'<div class="row"><div class="col-md-7"><a href="'
+      + "/system/" + system.id
+      +'"><img class="img-responsive center-block systemPictureImage" src="'
+      + system.picture
+      + '"></a></div><div class="col-md-5"><h3>'
+      + system.name
+      + '</h3><h4>'
+      + system.description
+      + '</h4><a class="btn btn-primary" href="'
+      + "/system/" + system.id
+      + '">View System ->'
+      + '</span></a></div></div><br/><br/><br/>'
+      )
+  }
+}
+
 
 function loadAllSystems(){
   var res;

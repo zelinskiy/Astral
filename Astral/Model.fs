@@ -3,6 +3,7 @@
 open Suave
 open Suave.Json
 open System.Runtime.Serialization
+open System.IO
 
 [<DataContract(Name = "root")>]
 type Point = {
@@ -76,7 +77,7 @@ type AstralSystem = {
 let private Sun = {
     Id = 1;
     Name="Sun";    
-    Lecture = "Sun is a star";
+    Lecture = "/client/lectures/sun_lecture.html";
     Position = { x=00.0; y=0.0; z=0.0; };
     Radius = 20.0;
     Orbit = { 
@@ -93,7 +94,7 @@ let private Sun = {
 let private Mercury = {
     Id = 2;
     Name="Mercury";
-    Lecture = "Mercury lect";
+    Lecture = "/client/lectures/mercury_lecture.html";
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -108,7 +109,7 @@ let private Mercury = {
 let private Venus = {
     Id = 3;
     Name="Venus";
-    Lecture = "Venus lect";
+    Lecture = "/client/lectures/venus_lecture.html";
     Position = { x=130.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
@@ -124,7 +125,7 @@ let private Venus = {
 let private Earth = {
     Id = 4;
     Name="Earth";
-    Lecture = "Earth is our home";
+    Lecture = "/client/lectures/earth_lecture.html";
     Position = { x=160.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
@@ -139,7 +140,7 @@ let private Earth = {
 let private Mars = {
     Id = 5;
     Name="Mars";    
-    Lecture = "Mars is a warrior";
+    Lecture = "/client/lectures/mars_lecture.html";
     Position = { x=190.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -154,7 +155,7 @@ let private Mars = {
 let private Jupiter = {
     Id = 6;
     Name="Jupiter";    
-    Lecture = "Jupiter is a wizard";
+    Lecture = "/client/lectures/jupiter_lecture.html";
     Position = { x=220.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -184,7 +185,7 @@ let private Saturn = {
 let private Uranus = {
     Id =8;
     Name="Uranus";    
-    Lecture = "Uranus lect";
+    Lecture = "/client/lectures/uranus_lecture.html";
     Position = { x=280.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -199,7 +200,7 @@ let private Uranus = {
 let private Neptune = {
     Id = 9;
     Name="Neptune";    
-    Lecture = "Neptune lect";
+    Lecture = "/client/lectures/neptune_lecture.html";
     Position = { x=310.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -215,7 +216,7 @@ let private Neptune = {
 let private Pluto = {
     Id = 10;
     Name="Pluto";    
-    Lecture = "Pluto is merely a planet";
+    Lecture = "/client/lectures/pluto_lecture.html";
     Position = { x=340.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -254,7 +255,7 @@ let private PtolemeyEarth = {
 let private PtolemeyMoon = {
     Id = 12;
     Name="Moon";    
-    Lecture = "Moon is our neariest neighbour";
+    Lecture = "/client/lectures/moon_lecture.html";
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -279,72 +280,72 @@ let private PtolemeyMercury = {
 
 let private PtolemeyVenus = { 
     Venus with
-        Id = 14;
-        Position = { x=200.0; y=0.0; z=0.0; };
+        Id = 14
+        Position = { x=200.0; y=0.0; z=0.0; }
         Orbit = { 
-                Center = PtolemeyEarth.Position;
-                AngleVelocity = 0.00035;
-            };
-        RotationVelocity = 0.0;
+                Center = PtolemeyEarth.Position
+                AngleVelocity = 0.00035
+            }
+        RotationVelocity = 0.0
     }
 
 let private PtolemeySun = { 
     Sun with 
-        Id = 15;
-        Position = { x=250.0; y=0.0; z=0.0; };
+        Id = 15
+        Position = { x=250.0; y=0.0; z=0.0; }
         Orbit = { 
-                Center = { x=0.0; y=0.0; z=0.0; };
-                AngleVelocity = 0.0004;
-            };
+                Center = { x=0.0; y=0.0; z=0.0; }
+                AngleVelocity = 0.0004
+            }
     }
 
 let private PtolemeyMars = { 
     Mars with
-        Id = 16;
-        Position = { x=300.0; y=0.0; z=0.0; };
+        Id = 16
+        Position = { x=300.0; y=0.0; z=0.0; }
         Orbit = { 
-                Center = PtolemeyEarth.Position;
-                AngleVelocity = 0.00025;
-            };
-        RotationVelocity = 0.0;
+                Center = PtolemeyEarth.Position
+                AngleVelocity = 0.00025
+            }
+        RotationVelocity = 0.0
     }
 
 let private PtolemeyJupiter = { 
     Jupiter with
-        Id = 17;
+        Id = 17
         Position = { x=350.0; y=0.0; z=0.0; };
         Orbit = { 
-                Center = PtolemeyEarth.Position;
-                AngleVelocity = 0.0002;
-            };
-        RotationVelocity = 0.0;
+                Center = PtolemeyEarth.Position
+                AngleVelocity = 0.0002
+            }
+        RotationVelocity = 0.0
     }
 
 let private PtolemeySaturn = { 
     Saturn with
-        Id = 18;
-        Position = { x=400.0; y=0.0; z=0.0; };
+        Id = 18
+        Position = { x=400.0; y=0.0; z=0.0; }
         Orbit = { 
-                Center = PtolemeyEarth.Position;
-                AngleVelocity = 0.00015;
-            };
-        RotationVelocity = 0.0;
+                Center = PtolemeyEarth.Position
+                AngleVelocity = 0.00015
+            }
+        RotationVelocity = 0.0
     }
 
 
 let PtolemeySystem = {
     Id = 2;
-    Name="Ptolemey System";
+    Name="Ptolemey System"
     Description = "Only planets in geocentryc order"
-    ElementsIds = [| 11..18 |];
-    Picture = "/client/pictures/ptolemey_system.jpg";
+    ElementsIds = [| 11..18 |]
+    Picture = "/client/pictures/ptolemey_system.jpg"
 }
 
 let RubinSun = {
     Sun with 
-        Id = 30;
-        Name = "Rubin";
-        Lecture = "Rubin is our star"
+        Id = 30
+        Name = "Rubin"
+        Lecture = "/client/lectures/rubin_lecture.html"
         Texture = "/client/pictures/rubin_texture.jpg"
     }
 

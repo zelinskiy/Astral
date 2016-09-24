@@ -1,4 +1,4 @@
-var SIZE = 8/12;
+var SIZE = 0.7;
 var CONTROLS;
 var FOCUS_DISTANCE_COEFF = 5;
 var SIMULATION_ACTIVE = true;
@@ -37,6 +37,18 @@ var system = [
 ]
 */
 
+function loadLectureHtml(path){
+  var res;
+  $.ajax({
+    async: false,
+		type: "GET",
+		url: path,
+		success:function(r) {
+      res = r;
+		}
+	});
+  return res;
+}
 
 function loadAstralObject(id){
   var res;
@@ -125,7 +137,7 @@ function setupBookmarksHandlers(object){
   loadLecture = function(){
     unselectAllBookmarks()
     $("#object_name").html(object.name);
-    $("#object_text").html(object.lecture);
+    $("#object_text").html(loadLectureHtml(object.lecture));
     $("#lectureBookmark").toggleClass("active", true);
   }
   loadDescription = function(){
@@ -234,6 +246,7 @@ function setupMouseSelector(scene, camera){
   }
 
   function onMouseDown( event ) {
+    if(event.which !== 1) { return; }
     raycaster.setFromCamera( mouse, camera );
     var intersects = raycaster.intersectObjects( scene.children );
     var selected_object = intersects.find(function(){return true;})

@@ -3,9 +3,26 @@ html, body{
   background-color: black;
 }
 #object_information{
+  position: absolute;
+  right:30px;
+  width:28vw;
   background: white;
   border-width: 0px;
   margin-top:70px;
+  margin-right: 2vw;
+  z-index:10;
+}
+
+#WebGL-output{
+  position: absolute;
+  width:70vw;
+  z-index:0;
+}
+
+#object_text{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height:50vh;
 }
 
 #positionLabel{
@@ -28,21 +45,19 @@ html, body{
   position: absolute;
   left:30px;
   top:110px;
+  z-index:30;
 }
 
 #returnSystemsButton{
   position: absolute;
   left:30px;
   top:70px;
+  z-index:30;
 }
 
 #playPauseSimulationButton{
   position: absolute;
   left:30px;
   top:150px;
-}
-
-.systemPictureImage{
-  max-width: 450px;
-  max-height: 250px;
+  z-index:30;
 }
