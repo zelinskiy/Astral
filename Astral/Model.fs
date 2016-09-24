@@ -77,7 +77,7 @@ let private Sun = {
     Id = 1;
     Name="Sun";    
     Lecture = "Sun is a star";
-    Position = { x=50.0; y=0.0; z=0.0; };
+    Position = { x=00.0; y=0.0; z=0.0; };
     Radius = 20.0;
     Orbit = { 
             Center = { x=0.0; y=0.0; z=0.0; };
@@ -340,6 +340,22 @@ let PtolemeySystem = {
     Picture = "/client/pictures/ptolemey_system.jpg";
 }
 
+let RubinSun = {
+    Sun with 
+        Id = 30;
+        Name = "Rubin";
+        Lecture = "Rubin is our star"
+        Texture = "/client/pictures/rubin_texture.jpg"
+    }
+
+let RubinSystem = {
+    Id = 3;
+    Name="Rubin System";
+    Description = "What if Rubin was shining instead of the Sun?"
+    ElementsIds = Array.concat [ [| 2..10 |]; [| 30 |] ]
+    Picture = "/client/pictures/rubin_system.jpg";
+} 
+
 type DB = 
     static member AstralObjects = [| 
         Sun; 
@@ -361,8 +377,14 @@ type DB =
         PtolemeyMars;
         PtolemeyJupiter;
         PtolemeySaturn;
+
+        RubinSun;
         |]
-    static member AstralSystems = [| SolarSystem; PtolemeySystem |]
+    static member AstralSystems = [| 
+        SolarSystem; 
+        PtolemeySystem; 
+        RubinSystem; 
+        |]
 
     static member findObject (id:int) = 
         Seq.tryFind (fun (e:AstralObject) -> e.Id = id) DB.AstralObjects

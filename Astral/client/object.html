@@ -34,15 +34,15 @@
   <p id="objectNameLabel"></p>
 
   <div class="row">
-    <div class="well pull-right col-md-4" id="object_description">
+    <div class="well pull-right col-md-4" id="object_information">
       <h3 id="object_name">Object</h3>
       <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#">Lecture</a></li>
-        <li role="presentation"><a href="#">Description</a></li>
-        <li role="presentation"><a href="#">Discussion</a></li>
-        <li role="presentation"><a href="#">Ask Question</a></li>
+        <li id="lectureBookmark" role="presentation" class="active bookmark"><a onclick="loadLecture()">Lecture</a></li>
+        <li id="descriptionBookmark" role="presentation" class="bookmark"><a onclick="loadDescription()">Description</a></li>
+        <li id="discussionBookmark" role="presentation" class="bookmark"><a onclick="loadDiscussion()">Discussion</a></li>
+        <li id="askQuestionBookmark" role="presentation" class="bookmark"><a onclick="loadAskQuestion()">Ask Question</a></li>
       </ul>
-      <p id="object_text">Lecture</p>
+      <div id="object_text"></div>      
   </div>
 
   <canvas id="WebGL-output"></canvas>

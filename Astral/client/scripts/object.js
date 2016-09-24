@@ -103,8 +103,49 @@ function loadSetupSystem(){
   var objects = system.elements.map(function(id){
     return loadAstralObject(id);
   })
-
+  setupBookmarksHandlers(objects.find(function(o){return true;}))
+  loadLecture();
   return objects;
+}
+
+//Must be replaced with an actual function programmatically!
+var loadLecture = function() {  }
+var loadDescription = function() {  }
+var loadDiscussion = function() {  }
+var loadAskQuestion = function() {  }
+
+function unselectAllBookmarks(){
+  $(".bookmark").each(function() {
+    $(this).toggleClass("active", false);
+  });
+}
+
+function setupBookmarksHandlers(object){
+
+  loadLecture = function(){
+    unselectAllBookmarks()
+    $("#object_name").html(object.name);
+    $("#object_text").html(object.lecture);
+    $("#lectureBookmark").toggleClass("active", true);
+  }
+  loadDescription = function(){
+    unselectAllBookmarks()
+    $("#object_name").html(object.name);
+    $("#object_text").html("Desc for " + object.name);
+    $("#descriptionBookmark").toggleClass("active", true);
+  }
+  loadDiscussion = function(){
+    unselectAllBookmarks()
+    $("#object_name").html(object.name);
+    $("#object_text").html("Discussion for " + object.name);
+    $("#discussionBookmark").toggleClass("active", true);
+  }
+  loadAskQuestion = function(){
+    unselectAllBookmarks()
+    $("#object_name").html(object.name);
+    $("#object_text").html("Questions for " + object.name);
+    $("#askQuestionBookmark").toggleClass("active", true);
+  }
 }
 
 function loadSpheresOnScene(scene, camera){
@@ -205,7 +246,8 @@ function setupMouseSelector(scene, camera){
 
 }
 
-var selectObject;
+//Must be replaced with an actual function programmatically!
+var selectObject = function(id){};
 
 function setupSelectObject(spheres){
   selectObject = function(id){
@@ -213,13 +255,9 @@ function setupSelectObject(spheres){
     updatePlayPauseSimulationButton();
     var object = spheres.find(function(s){return s.AstralObject.id == id;});
     lookAtObject(object, 100, object.AstralObject.r * FOCUS_DISTANCE_COEFF);
-    loadLecture(object.AstralObject);
+    setupBookmarksHandlers(object.AstralObject)
+    loadLecture();
   }
-}
-
-function loadLecture(object){
-  $("#object_name").html(object.name);
-  $("#object_text").html(object.lecture);
 }
 
 function lookAtObject(object, delay, dist){
