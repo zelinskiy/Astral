@@ -3,6 +3,8 @@ var CONTROLS;
 var FOCUS_DISTANCE_COEFF = 5;
 var SIMULATION_ACTIVE = true;
 var SPHERES;
+var ORBITS_OPACITY = 0.3;
+var ORBITS_SHOWN = true;
 /*
 var _objects = [
   {
@@ -124,7 +126,6 @@ function loadSetupSystem(){
 var loadLecture = function() {  }
 var loadDescription = function() {  }
 var loadDiscussion = function() {  }
-var loadAskQuestion = function() {  }
 var loadTest = function() {  }
 var sendDiscussionMessage = function() {  }
 
@@ -166,12 +167,6 @@ function setupBookmarksHandlers(object){
     $("#object_name").html(object.name);
     $("#object_text").html(loadDiscussionHtml(object.discussion.messages));
     $("#discussionBookmark").toggleClass("active", true);
-  }
-  loadAskQuestion = function(){
-    unselectAllBookmarks()
-    $("#object_name").html(object.name);
-    $("#object_text").html("Questions for " + object.name);
-    $("#askQuestionBookmark").toggleClass("active", true);
   }
   loadTest = function(){
     unselectAllBookmarks()
@@ -306,6 +301,8 @@ function selectInitialObject(spheres){
       .AstralObject
       .id)
   }
+  SIMULATION_ACTIVE = true;
+  updatePlayPauseSimulationButton();
 }
 
 //Must be replaced with an actual function programmatically!
@@ -445,7 +442,7 @@ function toggleSimulationActive(){
 }
 
 function updatePlayPauseSimulationButton(){
-  $("#playPauseSimulationButton").html(SIMULATION_ACTIVE?"►":"❚❚")
+  $("#playPauseSimulationButton").html(SIMULATION_ACTIVE?"❚❚":"►")
 }
 
 function toggleHelpControls(){
@@ -464,11 +461,30 @@ function distanceBetween(a, b){
   );
 }
 
+function toggleOrbits(){
+  ORBITS_SHOWN = !ORBITS_SHOWN
+  if(ORBITS_SHOWN === true){
+    showOrbitsLines()
+    $("#toggleOrbitsButton").html("Orbits ✔")
+  }
+  else{
+    hideOrbitsLines()
+    $("#toggleOrbitsButton").html("Orbits ✘")
+  }
+}
+
+//Must be replaced with an actual function programmatically!
+var hideOrbitsLines = function() { }
+var showOrbitsLines = function() { }
+
 function drawOrbitsLines(scene, objects){
   for(var i=0; i< objects.length; i++){
     var object = objects[i];
     if(object.orbit.angleV == 0){ continue; }
-    var material = new THREE.LineBasicMaterial( { color: new THREE.Color(object.orbit.color) } )
+    var material = new THREE.LineBasicMaterial( {
+      color: (new THREE.Color(object.orbit.color)),
+      transparent: true, opacity: ORBITS_OPACITY
+    } )
     var radius = distanceBetween(object.position, object.orbit.center);
     var geometry = new THREE.CircleGeometry( radius, radius / 2 )
     geometry.vertices.shift();
@@ -481,7 +497,26 @@ function drawOrbitsLines(scene, objects){
     line.rotation.x = Math.PI / 2;
     scene.add(line);
   }
+
+  hideOrbitsLines = function(){
+    scene.traverse(function(node) {
+      if (node instanceof THREE.Line) {
+        node.material.opacity = 0;
+      }
+    });
+  }
+
+  showOrbitsLines = function(){
+    scene.traverse(function(node) {
+      if (node instanceof THREE.Line) {
+        node.material.opacity = ORBITS_OPACITY;
+      }
+    });
+  }
+
 }
+
+
 
 $(document).ready(function () {
   //Setting up variables

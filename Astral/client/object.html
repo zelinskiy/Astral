@@ -1,9 +1,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
-
+  <title>A S T R A L</title>
   <link rel="stylesheet" type="text/css" href="/client/lib/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/client/lib/bootstrap-theme.min.css">
+
   <link rel="stylesheet" type="text/css" href="/client/styles/object.css">
 
   <script src="/client/lib/jquery.min.js"></script>
@@ -15,8 +16,14 @@
   <script src="/client/scripts/object.js"></script>
 </head>
 <body>
-  <button id="returnSystemsButton" onclick="window.location.replace('/')" class="btn">&lt- To systems</button>
+
+  <div id="logoDiv">
+    <img id="logoPic" class="center-block" src="/client/pictures/logo.png"/>
+  </div>
+
+  <button id="returnSystemsButton" onclick="window.location.replace('/')" class="btn">⇐ To systems</button>
   <button id="playPauseSimulationButton" onclick="toggleSimulationActive()" class="btn">►</button>
+  <button id="toggleOrbitsButton" onclick="toggleOrbits()" class="btn">Orbits ✔</button>
   <div class="dropdown" id="objectsListDropdown">
     <button class="btn dropdown-toggle"
     type="button"
@@ -24,7 +31,7 @@
     data-toggle="dropdown"
     aria-haspopup="true"
     aria-expanded="true">
-      Objects
+      Objects ↴
     </button>
     <ul id="objectsList" class="dropdown-menu" aria-labelledby="objectsListDropdownMenu"></ul>
   </div>
@@ -46,7 +53,6 @@
         <li id="lectureBookmark" role="presentation" class="active bookmark"><a onclick="loadLecture()">Lecture</a></li>
         <li id="descriptionBookmark" role="presentation" class="bookmark"><a onclick="loadDescription()">Description</a></li>
         <li id="discussionBookmark" role="presentation" class="bookmark"><a onclick="loadDiscussion()">Discussion</a></li>
-        <li id="askQuestionBookmark" role="presentation" class="bookmark"><a onclick="loadAskQuestion()">Ask Question</a></li>
         <li id="testBookmark" role="presentation" class="bookmark"><a onclick="loadTest()">Test</a></li>
       </ul>
       <div id="object_text"></div>

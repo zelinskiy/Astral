@@ -135,7 +135,7 @@ let private Mercury = {
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.005;
-            Color = "#DEF266"
+            Color = "#ff00ff"
         };
     RotationVelocity = 0.003;
     IsLightSource = false;
@@ -153,7 +153,7 @@ let private Venus = {
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.004;
-            Color = "#DEF266"
+            Color = "#FEF266"
         };
     RotationVelocity = 0.003;
     IsLightSource = false;
@@ -190,7 +190,7 @@ let private Mars = {
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.003;
-            Color = "#DEF266"
+            Color = "#f0f0f0"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -208,7 +208,7 @@ let private Jupiter = {
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.0025;
-            Color = "#DEF266"
+            Color = "#FFF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;
@@ -226,7 +226,7 @@ let private Saturn = {
     Orbit = { 
             Center = Sun.Position;
             AngleVelocity = 0.0020;
-            Color = "#DEF266"
+            Color = "#FFF266"
         };
     RotationVelocity = 0.015;
     IsLightSource = false;

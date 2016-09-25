@@ -3,6 +3,26 @@ html, body{
   color:white;
 }
 
+#tysonMotto{
+  color: black;
+  text-align: center;
+  width: 50vw;
+  margin-top: 50px;
+}
+
+#logoDiv{
+  margin-top: 50px;
+}
+
+#tysonPic{
+  width:20vw
+}
+
+#logoPic{
+  margin-top:30px;
+  width:35vw
+}
+
 #searchForm{
   margin-top:50px;
   margin-bottom:50px;

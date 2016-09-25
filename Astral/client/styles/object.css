@@ -2,14 +2,25 @@ html, body{
   overflow:hidden;
   background-color: black;
 }
+
+#logoDiv{
+  position: absolute;
+  margin-top: 10px;
+  left:32vw;
+  z-index: 200;
+}
+
+#logoPic{
+  width:35vw
+}
+
 #object_information{
   position: absolute;
-  right:30px;
   width:29vw;
+  right: 10px;
   background: white;
   border-width: 0px;
   margin-top:70px;
-  margin-right: 1vw;
   z-index:10;
 }
 
@@ -41,13 +52,6 @@ html, body{
   z-index: 30;
 }
 
-#objectsListDropdown{
-  position: absolute;
-  left:30px;
-  top:110px;
-  z-index:30;
-}
-
 #returnSystemsButton{
   position: absolute;
   left:30px;
@@ -55,10 +59,24 @@ html, body{
   z-index:30;
 }
 
+#objectsListDropdown{
+  position: absolute;
+  left:30px;
+  top:110px;
+  z-index:30;
+}
+
 #playPauseSimulationButton{
   position: absolute;
   left:30px;
   top:150px;
+  z-index:30;
+}
+
+#toggleOrbitsButton{
+  position: absolute;
+  left:30px;
+  top:190px;
   z-index:30;
 }
 
@@ -77,6 +95,7 @@ html, body{
 
 #toggleHelpControlsButton{
   position: absolute;
+  font-size: 20pt;
   left:30px;
   bottom:30px;
   z-index:30;
