@@ -126,6 +126,7 @@ var loadDescription = function() {  }
 var loadDiscussion = function() {  }
 var loadAskQuestion = function() {  }
 var loadTest = function() {  }
+var sendDiscussionMessage = function() {  }
 
 function unselectAllBookmarks(){
   $(".bookmark").each(function() {
@@ -134,7 +135,17 @@ function unselectAllBookmarks(){
 }
 
 function loadDiscussionHtml(messages){
-
+  return "<br/>" +
+  '<div id="discussionMessages">'
+  + messages.slice().map(function(m){
+    return "<p>" + m.text + "</p><hr/>"
+  }).join("")
+  + '</div>'
+  + '<div id="searchForm" class=" input-group" >'
+  + '<input id="discussionMessageinput" type="text" class="form-control">'
+  + '<span class="input-group-btn">'
+  + '<button class="btn btn-default" type="button" onclick="sendDiscussionMessage()">Send!</button>'
+  + '</span></div>'
 }
 
 function setupBookmarksHandlers(object){
@@ -153,7 +164,7 @@ function setupBookmarksHandlers(object){
   loadDiscussion = function(){
     unselectAllBookmarks()
     $("#object_name").html(object.name);
-    $("#object_text").html("Discussion for " + object.name);
+    $("#object_text").html(loadDiscussionHtml(object.discussion.messages));
     $("#discussionBookmark").toggleClass("active", true);
   }
   loadAskQuestion = function(){
@@ -167,6 +178,16 @@ function setupBookmarksHandlers(object){
     $("#object_name").html(object.name);
     $("#object_text").html("Test for " + object.name);
     $("#testBookmark").toggleClass("active", true);
+  }
+  sendDiscussionMessage = function(){
+    var msg = $("#discussionMessageinput").val();
+    if(msg.length > 0){
+      $("#discussionMessages").append("<p>" + msg + "</p><hr/>")
+      $("#object_text").scrollTop($("#object_text").prop("scrollHeight"));
+      $("#discussionMessageinput").val("")
+      return true;
+    }
+    return false;
   }
 }
 
@@ -382,7 +403,7 @@ function setupControls(camera, domElem){
     ORBIT: THREE.MOUSE.RIGHT,
     ZOOM: THREE.MOUSE.MIDDLE,
     PAN: THREE.MOUSE.LEFT };
-  setupWASDQE(domElem, CONTROLS, 10);
+  //setupWASDQE(domElem, CONTROLS, 10);
 }
 
 function rotateSpheres(spheres){
@@ -488,7 +509,7 @@ $(document).ready(function () {
   setupObjectsList(spheres.slice().map(function(s){ return s.AstralObject; }))
   setupSelectObject(spheres.slice())
   selectInitialObject(spheres)
-  
+
   //Our loop
   function render() {
     requestAnimationFrame(render);

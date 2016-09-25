@@ -26,37 +26,52 @@ type OrbitParameters = {
 }
 
 [<DataContract(Name = "root")>]
+type Message = {
+    [<field: DataMember(Name="text")>]
+    Text:string
+}
+
+[<DataContract(Name = "root")>]
+type Discussion = {
+    [<field: DataMember(Name="messages")>]
+    Messages: array<Message>
+}
+
+[<DataContract(Name = "root")>]
 type AstralObject ={
     [<field: DataMember(Name="id")>]
-    Id:int;
+    Id:int
 
     [<field: DataMember(Name="name")>]
-    Name:string;
+    Name:string
 
     [<field: DataMember(Name="description")>]
-    Description:string;
+    Description:string
 
     [<field: DataMember(Name="lecture")>]
-    Lecture:string;
+    Lecture:string
+
+    [<field: DataMember(Name="discussion")>]
+    Discussion:Discussion
 
     [<field: DataMember(Name="position")>]
-    Position:Point;
+    Position:Point
 
     [<field: DataMember(Name="r")>]
-    Radius:double;
+    Radius:double
 
     [<field: DataMember(Name="rotV")>]
-    RotationVelocity:double;
+    RotationVelocity:double
 
     //TODO: Option<OrbitParameters>
     [<field: DataMember(Name="orbit")>]
-    Orbit: OrbitParameters;
+    Orbit: OrbitParameters
 
     [<field: DataMember(Name="isLightSource")>]
-    IsLightSource: bool;
+    IsLightSource: bool
 
     [<field: DataMember(Name="texture")>]
-    Texture:string;
+    Texture:string
 } 
     
     
@@ -79,11 +94,22 @@ type AstralSystem = {
     Picture:string;
 }
 
+let private SunDiscussion = {
+    Messages = [| 
+                { Text = "Message 1" }
+                { Text = "Message 2" }
+                { Text = "Message 3" }
+                |]
+}
+
+
+
 let private Sun = {
     Id = 1
     Name="Солнце"
     Lecture = "/client/lectures/sun_lecture.html"
     Description = "/client/descriptions/sun_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=00.0; y=0.0; z=0.0; }
     Radius = 20.0
     Orbit = { 
@@ -103,6 +129,7 @@ let private Mercury = {
     Name="Меркурий";
     Lecture = "/client/lectures/mercury_lecture.html";
     Description = "/client/descriptions/mercury_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -120,6 +147,7 @@ let private Venus = {
     Name="Венера";
     Lecture = "/client/lectures/venus_lecture.html";
     Description = "/client/descriptions/venus_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=130.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
@@ -138,6 +166,7 @@ let private Earth = {
     Name="Земля";
     Lecture = "/client/lectures/earth_lecture.html";
     Description = "/client/descriptions/earth_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=160.0; y=0.0; z=0.0; };
     Radius = 7.0;    
     Orbit = { 
@@ -155,6 +184,7 @@ let private Mars = {
     Name="Марс";    
     Lecture = "/client/lectures/mars_lecture.html";
     Description = "/client/descriptions/mars_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=190.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -172,6 +202,7 @@ let private Jupiter = {
     Name="Юпитер";    
     Lecture = "/client/lectures/jupiter_lecture.html";
     Description = "/client/descriptions/jupiter_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=220.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -189,6 +220,7 @@ let private Saturn = {
     Name="Сатурн";    
     Lecture = "Saturn lect";
     Description = "/client/descriptions/saturn_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=250.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -206,6 +238,7 @@ let private Uranus = {
     Name="Уран";    
     Lecture = "/client/lectures/uranus_lecture.html";
     Description = "/client/descriptions/uranus_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=280.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -223,6 +256,7 @@ let private Neptune = {
     Name="Нептун";    
     Lecture = "/client/lectures/neptune_lecture.html";
     Description = "/client/descriptions/neptune_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=310.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -241,6 +275,7 @@ let private Pluto = {
     Name="Плутон";    
     Lecture = "/client/lectures/pluto_lecture.html";
     Description = "/client/descriptions/pluto_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=340.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
@@ -283,6 +318,7 @@ let private PtolemeyMoon = {
     Name="Луна";    
     Lecture = "/client/lectures/moon_lecture.html";
     Description = "/client/descriptions/sun_desc.html"
+    Discussion = SunDiscussion;
     Position = { x=100.0; y=0.0; z=0.0; };
     Radius = 7.0;
     Orbit = { 
