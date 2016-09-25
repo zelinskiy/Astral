@@ -429,3 +429,6 @@ type DB =
 
     static member findObjectsByName (pattern:string) = 
         Seq.filter (fun (e:AstralObject) -> e.Name.ToLower().Contains(pattern.ToLower())) DB.AstralObjects
+
+    static member findSystemsContainingObject (id:int) = 
+        Seq.filter (fun (s:AstralSystem) -> Array.exists ((=) id) s.ElementsIds) DB.AstralSystems

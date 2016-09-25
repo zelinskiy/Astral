@@ -23,13 +23,18 @@ let app =
         [ 
 
         path "/" >=> Files.file "./client/index.html"
+        path "/editor" >=> Files.file "./client/editor.html"
         pathScan "/system/%d" (fun(id) ->  Files.file "./client/object.html")
-        pathScan "/find/%s" (fun(pattern) -> 
-            pattern 
-            |> System.Web.HttpUtility.UrlDecode
-            |> DB.findObjectsByName
-            |> Seq.toArray
-            |> toJsonWebPart)
+        pathScan "/search/%s" (fun(id) ->  Files.file "./client/search.html")
+
+        pathScan "/find/%s" (System.Web.HttpUtility.UrlDecode
+            >> DB.findObjectsByName
+            >> Seq.toArray
+            >> toJsonWebPart)
+
+        pathScan "/systemsWithObject/%d" (DB.findSystemsContainingObject 
+            >> Seq.toArray 
+            >> toJsonWebPart)
 
         path "/objects" >=> toJsonWebPart DB.AstralObjects
         path "/systems" >=> toJsonWebPart DB.AstralSystems

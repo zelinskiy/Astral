@@ -1,0 +1,16 @@
+html, body{
+  background-color: black;
+  color:white;
+}
+
+#searchResults{
+  margin-top:50px;
+  margin-right:100px;
+  margin-left:100px;
+  height: 100%;
+}
+
+.objectPreview{
+  width: 500px;
+  height: 500px;
+}
