@@ -47,6 +47,7 @@ function loadHtml(path){
   var res;
   $.ajax({
     async: false,
+    cache:false,
 		type: "GET",
 		url: path,
 		success:function(r) {
@@ -60,6 +61,7 @@ function loadAstralObject(id){
   var res;
   $.ajax({
     async: false,
+    cache:false,
 		type: "GET",
 		url: '/loadobject/' + id,
 		success:function(r) {
@@ -74,6 +76,7 @@ function loadAstralSystem(id){
   var res;
   $.ajax({
     async: false,
+    cache:false,
 		type: "GET",
 		url: '/loadsystem/' + id,
 		success:function(r) {
