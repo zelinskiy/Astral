@@ -3,6 +3,12 @@ html, body{
   color:white;
 }
 
+#searchForm{
+  margin-top:50px;
+  margin-bottom:50px;
+  margin-left:30vw;
+  margin-right:30vw;
+}
 
 #systemsList{
   margin-top:50px;

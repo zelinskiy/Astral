@@ -1,23 +1,3 @@
-function oldSetupList(systems){
-  for(i=0; i<systems.length; i++){
-    var system = systems[i]
-    $("#systemsList").append(""
-      + "<div class=\"row\"\>"
-      + "<div class=\"col-md-5\"><a href=\"/system/"
-      + system.id
-      + "\">"
-      + "<img class=\"systemPictureImage\" src=\"" +
-      system.picture
-      + "\"/>"
-      + "</a></div>"
-      + "<div class=\"system_description col-md-7\">"
-      + "<h3>"
-      + system.description
-      + "</h3>"
-      + "</div></div></div>"
-      )
-  }
-}
 
 function setupList(systems){
   for(i=0; i<systems.length; i++){
@@ -52,6 +32,10 @@ function loadAllSystems(){
 		}
 	});
   return res;
+}
+
+function search(){
+  window.location.assign("/search/" + $("#searchPatternInput").val())
 }
 
 $(document).ready(function(){

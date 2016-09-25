@@ -10,7 +10,20 @@ html, body{
   height: 100%;
 }
 
+.highlightSearchPattern{
+  color:black;
+  background-color: yellow;
+}
+
+
 .objectPreview{
   width: 500px;
   height: 500px;
+}
+
+#searchForm{
+  margin-top:50px;
+  margin-bottom:50px;
+  margin-left:30vw;
+  margin-right:30vw;
 }

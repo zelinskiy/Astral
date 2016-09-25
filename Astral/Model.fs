@@ -413,12 +413,12 @@ type DB =
         PtolemeyJupiter;
         PtolemeySaturn;
 
-        RubinSun;
+        //RubinSun;
         |]
     static member AstralSystems = [| 
         SolarSystem; 
         PtolemeySystem; 
-        RubinSystem; 
+        //RubinSystem; 
         |]
 
     static member findObject (id:int) = 

@@ -1,11 +1,17 @@
 var DIST = 5;
 var ROT_SPEED = 0.01;
 
-function loadSearchResults(pattern, callback){
+function search(){
+  window.location.assign("/search/" + $("#searchPatternInput").val())
+}
+
+function loadSearchResults(pattern){
   $.ajax({
 		type: "GET",
 		url: "/find/" + decodeURI(pattern),
-		success:callback
+		success:function(res){
+      processSearchResults(res, pattern)
+    }
 	})
 }
 
@@ -30,14 +36,35 @@ function loadSystemsToDomElem(systems, domElemId, selectedObjectId){
   }
 }
 
-function processSearchResults(rs){
+function highlightSearchPattern(text, pattern){
+  var re = new RegExp(pattern, "gi")
+  console.log(re)
+  return text.replace(
+    re,
+    function(match){
+      return '<span class="highlightSearchPattern">' + match + '</span>'
+    }
+  )
+}
+
+function processSearchResults(rs, pattern){
+  if(rs.length == 0){
+    $("#searchResults").append(""
+    + '<h1 class="text-center">Nothing found for ' + pattern + '</h1>'
+    )
+    return;
+  }
   rs.slice().map(function(r){
     $("#searchResults").append(""
       + '<div class="row"><div class="col-md-7">'
       //+ '<img class="objectPreview" src="' + r.texture + '"/>'
-      + '<canvas class="objectPreview" id="objectPreview_' + r.id + '"></canvas>'
+      + '<canvas class="objectPreview" id="objectPreview_'
+      + r.id
+      + '"></canvas>'
       + '</div>'
-      + '<div class="col-md-5 objectDesc"><h3>' + r.name + '</h3>'
+      + '<div class="col-md-5 objectDesc"><h3>'
+      + highlightSearchPattern(r.name, pattern)
+      + '</h3>'
       + '<div id="systemRefs_' + r.id + '"></div>'
       + '</div></div><br/>'
       )
@@ -95,6 +122,7 @@ function loadObjectPreview(object, domElemId){
 
 
 $(document).ready(function(){
-  var searchPattern = window.location.pathname.split('/').pop()
-  loadSearchResults(searchPattern, processSearchResults)
+  var searchPattern = decodeURI(window.location.pathname.split('/').pop())
+  $("#searchPatternInput").val(searchPattern)
+  loadSearchResults(searchPattern)
 });
