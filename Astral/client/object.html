@@ -17,9 +17,15 @@
 </head>
 <body>
 
+  <div id="loadingScreenDiv">
+    <img id="loadingScreenPic" src="/client/pictures/loading_screen.gif"/>
+  </div>
+
   <div id="logoDiv">
     <img id="logoPic" class="center-block" src="/client/pictures/logo.png"/>
   </div>
+
+  <button id="toggleSidebarButton" onclick="toggleSidebar()" class="btn">☰</button>
 
   <button id="returnSystemsButton" onclick="window.location.replace('/')" class="btn">⇐ To systems</button>
   <button id="playPauseSimulationButton" onclick="toggleSimulationActive()" class="btn">►</button>
@@ -46,16 +52,15 @@
     <img class="col-md-4 helpControlsImage" src="/client/pictures/tutorial3.jpg"/>
   </div>
 
-  <div class="row">
-    <div class="well pull-right col-md-4" id="object_information">
-      <h3 id="object_name">Object</h3>
-      <ul class="nav nav-tabs">
-        <li id="lectureBookmark" role="presentation" class="active bookmark"><a onclick="loadLecture()">Lecture</a></li>
-        <li id="descriptionBookmark" role="presentation" class="bookmark"><a onclick="loadDescription()">Description</a></li>
-        <li id="discussionBookmark" role="presentation" class="bookmark"><a onclick="loadDiscussion()">Discussion</a></li>
-        <li id="testBookmark" role="presentation" class="bookmark"><a onclick="loadTest()">Test</a></li>
-      </ul>
-      <div id="object_text"></div>
+  <div class="well" id="object_information">
+    <h3 id="object_name">Object</h3>
+    <ul class="nav nav-tabs">
+      <li id="lectureBookmark" role="presentation" class="active bookmark"><a onclick="loadLecture()">Lecture</a></li>
+      <li id="descriptionBookmark" role="presentation" class="bookmark"><a onclick="loadDescription()">Description</a></li>
+      <li id="discussionBookmark" role="presentation" class="bookmark"><a onclick="loadDiscussion()">Discussion</a></li>
+      <li id="testBookmark" role="presentation" class="bookmark"><a onclick="loadTest()">Test</a></li>
+    </ul>
+    <div id="object_text"></div>
   </div>
 
   <canvas id="WebGL-output"></canvas>

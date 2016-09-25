@@ -1,10 +1,12 @@
-var SIZE = 0.7;
+var SIZE = 1;
 var CONTROLS;
 var FOCUS_DISTANCE_COEFF = 5;
 var SIMULATION_ACTIVE = true;
 var SPHERES;
 var ORBITS_OPACITY = 0.3;
 var ORBITS_SHOWN = true;
+var LOADING_TIMEOUT = 250;
+var LOADING_FADE_TIME = 1500;
 /*
 var _objects = [
   {
@@ -38,6 +40,8 @@ var system = [
   }
 ]
 */
+
+
 
 function loadHtml(path){
   var res;
@@ -83,6 +87,9 @@ function loadAstralSystem(id){
 function loadManyTextures(spheres, render, texloader){
   if(spheres.length == 0) {
     render();
+    setTimeout(function(){
+      $("#loadingScreenDiv").fadeOut(LOADING_FADE_TIME)
+    }, LOADING_TIMEOUT)
     return;
   }
   var sphere = spheres.pop();
@@ -293,6 +300,7 @@ function selectInitialObject(spheres){
       .find(function(s){ return true; })
       .AstralObject
       .id)
+    SIMULATION_ACTIVE = true;
   }
   else{
     selectObject(spheres
@@ -300,9 +308,10 @@ function selectInitialObject(spheres){
       .find(function(s){ return s.AstralObject.id == id; })
       .AstralObject
       .id)
+    SIMULATION_ACTIVE = false;
   }
-  SIMULATION_ACTIVE = true;
   updatePlayPauseSimulationButton();
+  hideSidebar();
 }
 
 //Must be replaced with an actual function programmatically!
@@ -315,6 +324,7 @@ function setupSelectObject(spheres){
     var object = spheres.find(function(s){return s.AstralObject.id == id;});
     lookAtObject(object, 100, object.AstralObject.r * FOCUS_DISTANCE_COEFF);
     setupBookmarksHandlers(object.AstralObject)
+    showSidebar()
     loadLecture();
   }
 }
@@ -517,6 +527,17 @@ function drawOrbitsLines(scene, objects){
 }
 
 
+function toggleSidebar(){
+  $("#object_information").toggle()
+}
+
+function showSidebar(){
+  $("#object_information").show()
+}
+
+function hideSidebar(){
+  $("#object_information").hide()
+}
 
 $(document).ready(function () {
   //Setting up variables

@@ -1,5 +1,7 @@
 var DIST = 5;
 var ROT_SPEED = 0.01;
+var LOADING_TIMEOUT = 250;
+var LOADING_FADE_TIME = 1500;
 
 function search(){
   window.location.assign("/search/" + $("#searchPatternInput").val())
@@ -73,6 +75,7 @@ function processSearchResults(rs, pattern){
       })
       loadObjectPreview(r, "objectPreview_" + r.id)
   });
+
 }
 
 function loadObjectPreview(object, domElemId){
@@ -130,4 +133,7 @@ $(document).ready(function(){
   var searchPattern = decodeURI(window.location.pathname.split('/').pop())
   $("#searchPatternInput").val(searchPattern)
   loadSearchResults(searchPattern)
+  setTimeout(function(){
+    $("#loadingScreenDiv").fadeOut(LOADING_FADE_TIME)
+  }, LOADING_TIMEOUT)
 });

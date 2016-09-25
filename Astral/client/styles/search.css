@@ -3,6 +3,25 @@ html, body{
   color:white;
 }
 
+#loadingScreenDiv{
+  position: absolute;
+  top:0;
+  left:0;
+  height:100vh;
+  width: 100vw;
+  z-index:1000;
+  background-color: black;
+  z-index:5000;
+}
+
+#loadingScreenPic{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+
 #returnSystemsButton{
   position: absolute;
   left:30px;

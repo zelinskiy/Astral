@@ -3,6 +3,23 @@ html, body{
   color:white;
 }
 
+#loadingScreenDiv{
+  position: absolute;
+  height:100vh;
+  width: 100vw;
+  z-index:1000;
+  background-color: black;
+  z-index:1000;
+}
+
+#loadingScreenPic{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+
 #tysonMotto{
   color: black;
   text-align: center;

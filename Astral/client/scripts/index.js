@@ -1,3 +1,6 @@
+var LOADING_TIMEOUT = 250;
+var LOADING_FADE_TIME = 1500;
+
 
 function setupList(systems){
   for(i=0; i<systems.length; i++){
@@ -17,6 +20,9 @@ function setupList(systems){
       + '</span></a></div></div><br/><br/><br/>'
       )
   }
+  setTimeout(function(){
+    $("#loadingScreenDiv").fadeOut(LOADING_FADE_TIME)
+  }, LOADING_TIMEOUT)
 }
 
 
