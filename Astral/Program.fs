@@ -8,8 +8,10 @@ open Suave.Writers
 open System.Text
 open System.Runtime.Serialization
 open System.Collections.Generic
+open System
 
 open Models
+
 
 let toJsonWebPart o = 
     (toJson >> ok) o 
@@ -22,6 +24,12 @@ let app =
 
         path "/" >=> Files.file "./client/index.html"
         pathScan "/system/%d" (fun(id) ->  Files.file "./client/object.html")
+        pathScan "/find/%s" (fun(pattern) -> 
+            pattern 
+            |> System.Web.HttpUtility.UrlDecode
+            |> DB.findObjectsByName
+            |> Seq.toArray
+            |> toJsonWebPart)
 
         path "/objects" >=> toJsonWebPart DB.AstralObjects
         path "/systems" >=> toJsonWebPart DB.AstralSystems
