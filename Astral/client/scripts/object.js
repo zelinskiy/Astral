@@ -104,18 +104,6 @@ function showMyPosition(pos){
   )
 }
 
-function loadInitialObject(spheres){
-  var selected_id = getQueryVariable("selected_object");
-  console.log(selected_id)
-  if(selected_id === false){
-    return spheres.find(function(s){return true;});
-  }
-  else{
-    return spheres.find(function(s){return s.AstralObject.id == selected_id;});
-  }
-}
-
-
 function loadSetupSystem(){
   var SystemId = window.location.pathname.split('/').pop()
   var system = loadAstralSystem(SystemId);
@@ -127,6 +115,8 @@ function loadSetupSystem(){
   var objects = system.elements.map(function(id){
     return loadAstralObject(id);
   })
+  setupBookmarksHandlers(objects.find(function(o){return true;}))
+  loadLecture();
   return objects;
 }
 
@@ -279,9 +269,26 @@ function setupMouseSelector(scene, camera){
 
 }
 
+function selectInitialObject(spheres){
+  var id = getQueryVariable("selected_object")
+  if(id === false){
+    selectObject(spheres
+      .slice()
+      .find(function(s){ return true; })
+      .AstralObject
+      .id)
+  }
+  else{
+    selectObject(spheres
+      .slice()
+      .find(function(s){ return s.AstralObject.id == id; })
+      .AstralObject
+      .id)
+  }
+}
+
 //Must be replaced with an actual function programmatically!
 var selectObject = function(id){};
-
 
 function setupSelectObject(spheres){
   selectObject = function(id){
@@ -475,14 +482,13 @@ $(document).ready(function () {
   setupControls(camera, domElem);
   setupMouseSelector(scene, camera);
   var spheres = loadSpheresOnScene(scene, camera);
-  setupBookmarksHandlers(loadInitialObject(spheres))
-  loadLecture();
   drawOrbitsLines(scene, spheres.slice().map(function(s){ return s.AstralObject; }), 0x0000ff)
   loadManyTextures(spheres.slice(), render, texloader)
   showLightsOnScene(scene);
   setupObjectsList(spheres.slice().map(function(s){ return s.AstralObject; }))
   setupSelectObject(spheres.slice())
-
+  selectInitialObject(spheres)
+  
   //Our loop
   function render() {
     requestAnimationFrame(render);
