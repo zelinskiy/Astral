@@ -16,7 +16,7 @@ function setupList(systems){
       + system.description
       + '</h4><a class="btn btn-primary" href="'
       + "/system/" + system.id
-      + '">View System ->'
+      + '">View System'
       + '</span></a></div></div><br/><br/><br/>'
       )
   }
@@ -45,5 +45,8 @@ function search(){
 }
 
 $(document).ready(function(){
+  $("#searchPatternInput").keypress(function(event){
+    if(event.keyCode == 13) { search() }
+  })
   setupList(loadAllSystems());
 })

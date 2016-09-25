@@ -35,6 +35,7 @@ html, body{
 #object_information{
   display:none;
   position: absolute;
+  right:0;
   width:45vw;
   background: white;
   border-width: 0px;

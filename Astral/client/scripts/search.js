@@ -133,6 +133,9 @@ $(document).ready(function(){
   var searchPattern = decodeURI(window.location.pathname.split('/').pop())
   $("#searchPatternInput").val(searchPattern)
   loadSearchResults(searchPattern)
+  $("#searchPatternInput").keypress(function(event){
+      if(event.keyCode == 13) { search() }
+  })
   setTimeout(function(){
     $("#loadingScreenDiv").fadeOut(LOADING_FADE_TIME)
   }, LOADING_TIMEOUT)
