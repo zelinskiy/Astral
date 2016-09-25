@@ -5,6 +5,7 @@
 -- Loading screen
 -- Editor
 -- SkyBoxes
+++ Search
 
 ++ Model types inheritance(or nesting records?)
 ++ Immutability

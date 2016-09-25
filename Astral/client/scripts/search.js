@@ -108,13 +108,18 @@ function loadObjectPreview(object, domElemId){
       sphere.material.map = texture
       render();
     });
+
   //Our loop
   function render() {
     requestAnimationFrame(render);
-    rotateSphere(sphere, ROT_SPEED)
+    if ($('#'+domElem.id+':hover').length != 0) {
+      rotateSphere(sphere, ROT_SPEED)
+    }
     renderer.render(scene, camera);
   }
+
   function rotateSphere(sphere, speed){
+    console.log("!")
     sphere.rotation.y += speed;
   }
 }
