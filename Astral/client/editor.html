@@ -4,7 +4,8 @@
   <title>A S T R A L</title>
   <link rel="stylesheet" type="text/css" href="/client/lib/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/client/lib/bootstrap-theme.min.css">
-  <link rel="stylesheet" type="text/css" href="/client/styles/object.css">
+
+  <link rel="stylesheet" type="text/css" href="/client/styles/editor.css">
 
   <script src="/client/lib/jquery.min.js"></script>
   <script src="/client/lib/bootstrap.min.js"></script>
@@ -12,11 +13,18 @@
   <script src="/client/lib/controls.js"></script>
   <script src="/client/lib/tween.js"></script>
 
-  <script src="/client/scripts/object.js"></script>
+  <script src="/client/scripts/editor.js"></script>
 </head>
 <body>
+
+  <div id="logoDiv">
+    <img id="logoPic" class="center-block" src="/client/pictures/logo.png"/>
+  </div>
+
+  <button id="toggleSidebarButton" onclick="toggleSidebar()" class="btn">☰</button>
+
   <button id="returnSystemsButton" onclick="window.location.replace('/')" class="btn">&lt- To systems</button>
-  <button id="playPauseSimulationButton" onclick="toggleSimulationActive()" class="btn">►</button>
+
   <div class="dropdown" id="objectsListDropdown">
     <button class="btn dropdown-toggle"
     type="button"
@@ -28,9 +36,88 @@
     </button>
     <ul id="objectsList" class="dropdown-menu" aria-labelledby="objectsListDropdownMenu"></ul>
   </div>
-  <p id="positionLabel">X Y Z</p>
 
-  <div id="controlsPanel">
+  <button id="newObjectButton" onclick="newObject()" class="btn">New</button>
+
+
+  <div id="controlsPanel" class="well center-block">
+    <hr/>
+
+    <div class="input-group">
+      <span class="input-group-addon" id="Name-addon">Name: </span>
+      <input id="objectNameInput" type="text" class="needupdate form-control" aria-describedby="Name-addon">
+    </div>
+    <hr/>
+
+    <p>Position: </p>
+    <div class="input-group">
+      <span class="input-group-addon" id="xyz-x-addon">X</span>
+      <input id="objectPositionXInput" type="number" class="needupdate form-control" aria-describedby="xyz-x-addon">
+      <span class="input-group-addon" id="xyz-y-addon">Y</span>
+      <input id="objectPositionYInput" type="number" class="needupdate form-control" aria-describedby="xyz-x-addon">
+      <span class="input-group-addon" id="xyz-z-addon">Z</span>
+      <input id="objectPositionZInput" type="number" class="needupdate form-control" aria-describedby="xyz-x-addon">
+    </div>
+    <hr/>
+
+    <p>Lecture: </p>
+    <form id="uploadLectureForm" enctype="multipart/form-data">
+      <input type="file" name="file" onchange="uploadLecture()"/>
+    </form>
+    <hr/>
+
+    <p>Description: </p>
+    <form id="uploadDescriptionForm" enctype="multipart/form-data">
+      <input type="file" name="file" onchange="uploadDescription()"/>
+    </form>
+    <hr/>
+
+    <p>Texture: </p>
+    <form id="uploadTextureForm" enctype="multipart/form-data">
+      <input type="file" name="file" onchange="uploadTexture()"/>
+    </form>
+    <hr/>
+
+    <div class="input-group">
+      <span class="input-group-addon" id="Radius-addon">Radius:</span>
+      <input id="objectRadiusInput" type="number" class="needupdate smallinput form-control" aria-describedby="Radius-addon">
+    </div>
+    <hr/>
+
+    <div class="input-group">
+      <span class="input-group-addon" id="RotV-addon">Axis rotation velocity:</span>
+      <input id="objectRotVInput" type="number" class="needupdate smallinput form-control" aria-describedby="RotV-addon">
+    </div>
+    <hr/>
+
+    <p>Is source of light: <input id="isLightSourceCheckBox" class="needupdate" type="checkbox"></p>
+    <hr/>
+
+    <p>Orbit parameters</p>
+    <div class="input-group">
+      <span class="input-group-addon" id="orbit-x-addon">X</span>
+      <input id="objectOrbitCenterPositionXInput" type="number" class="needupdate form-control" aria-describedby="orbit-x-addon">
+      <span class="input-group-addon" id="orbit-y-addon">Y</span>
+      <input id="objectOrbitCenterPositionYInput" type="number" class="needupdate form-control" aria-describedby="orbit-x-addon">
+      <span class="input-group-addon" id="orbit-z-addon">Z</span>
+      <input id="objectOrbitCenterPositionZInput" type="number" class="needupdate form-control" aria-describedby="orbitorbit-x-addon">
+    </div>
+    <br/>
+    <div class="input-group">
+      <span class="input-group-addon" id="orbit-angleV-addon">Orbital Velocity:</span>
+      <input id="objectOrbitAngleVInput" type="number" class="needupdate smallinput form-control" aria-describedby="orbit-angleV-addon">
+    </div>
+    <br/>
+    <div class="input-group">
+      <span class="input-group-addon" id="orbit-color-addon">Orbit color:</span>
+      <input id="objectOrbitColorInput" type="color" class="needupdate smallinput form-control" aria-describedby="orbit-color-addon">
+    </div>
+
+    <hr/>
+
+    <!--orbit:{"angleV":0.003,"center":{"x":0,"y":0,"z":0},"color":"#f0f0f0"},-->
+
+
 
   </div>
 
