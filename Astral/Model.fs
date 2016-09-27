@@ -427,6 +427,107 @@ let RubinSystem = {
     Picture = "/client/pictures/rubin_system.jpg";
 } 
 
+let TwinStarA = {
+    Id = 50
+    Name="Звезда А"
+    Lecture = "/client/lectures/twinstara_lecture.html"
+    Description = "/client/descriptions/twinstara_desc.html"
+    Discussion = SunDiscussion;
+    Position = { x=100.0; y=0.0; z=0.0; }
+    Radius = 30.0
+    Orbit = { 
+            Center = { x=0.0; y=0.0; z=0.0; }
+            AngleVelocity = 0.01
+            Color = "#0040ff"
+        }
+    RotationVelocity = 0.075
+    IsLightSource = true
+    Texture = "/client/pictures/bluedwarf_texture.jpg"
+}
+
+let TwinStarB = {
+    TwinStarA with 
+        Id = 51
+        Name="Звезда B"
+        Lecture = "/client/lectures/twinstarb_lecture.html"
+        Description = "/client/descriptions/twinstarb_desc.html"
+        Position = { x=(-100.0); y=0.0; z=0.0; }
+}
+
+let TwinStarsSystem = {
+    Id = 4;
+    Name="Двойные звезды";
+    Description = "Пример двух двойных звезд"
+    ElementsIds = [| 50; 51 |]
+    Picture = "/client/pictures/twin_system.jpg";
+}
+
+let AlphaCentauriA = {
+    Id = 60
+    Name="Альфа Центавра А"
+    Lecture = "/client/lectures/alphacentauria_lecture.html"
+    Description = "/client/descriptions/alphacentauria_desc.html"
+    Discussion = SunDiscussion;
+    Position = { x=(-700.0); y=0.0; z=0.0; }
+    Radius = 30.0
+    Orbit = { 
+            Center = { x=(0.0); y=0.0; z=0.0; }
+            AngleVelocity = 0.001
+            Color = "#0040ff"
+        }
+    RotationVelocity = 0.0
+    IsLightSource = true
+    Texture = "/client/pictures/sun_texture.jpg"
+}
+
+let AlphaCentauriB = {
+    Id = 61
+    Name="Альфа Центавра B"
+    Lecture = "/client/lectures/alphacentaurib_lecture.html"
+    Description = "/client/descriptions/alphacentaurib_desc.html"
+    Discussion = SunDiscussion;
+    Position = { x=1400.0; y=0.0; z=0.0; }
+    Radius = 20.0
+    Orbit = { 
+            Center = { x=(700.0); y=0.0; z=0.0; }
+            AngleVelocity = 0.005
+            Color = "#0040ff"
+        }
+    RotationVelocity = 0.0
+    IsLightSource = true
+    Texture = "/client/pictures/sun_texture.jpg"
+}
+
+let ProximaCentauri = {
+    Id = 62
+    Name="Проксима Центавра"
+    Lecture = "/client/lectures/proximacentauri_lecture.html"
+    Description = "/client/descriptions/proximacentauri_desc.html"
+    Discussion = SunDiscussion;
+    Position = { x=500.0; y=0.0; z=0.0; }
+    Radius = 8.0
+    Orbit = { 
+            Center = { x=(350.0); y=0.0; z=(700.0); }
+            AngleVelocity = 0.003
+            Color = "#0040ff"
+        }
+    RotationVelocity = 0.00
+    IsLightSource = true
+    Texture = "/client/pictures/reddwarf_texture.jpg"
+}
+
+
+let AlphaCentauriSystem = {
+    Id = 5;
+    Name="Альфа Центара";
+    Description = "Система Альфа Центара"
+    ElementsIds = [| 60..62 |]
+    Picture = "/client/pictures/alphacentauri_system.jpg";
+}
+
+
+
+
 type DB = 
     static member AstralObjects = [| 
         Sun; 
@@ -450,11 +551,21 @@ type DB =
         PtolemeySaturn;
 
         //RubinSun;
+
+        TwinStarA;
+        TwinStarB;
+
+        AlphaCentauriA;
+        AlphaCentauriB;
+        ProximaCentauri;
+
         |]
     static member AstralSystems = [| 
         SolarSystem; 
-        PtolemeySystem; 
-        //RubinSystem; 
+        PtolemeySystem;        
+        TwinStarsSystem;
+        AlphaCentauriSystem;
+        //RubinSystem;
         |]
 
     static member findObject (id:int) = 

@@ -12,6 +12,7 @@ html, body{
   z-index:1000;
   background-color: black;
   z-index:5000;
+  pointer-events:none;
 }
 
 #loadingScreenPic{
@@ -19,6 +20,7 @@ html, body{
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
+  pointer-events:none;
 }
 
 
@@ -57,8 +59,8 @@ html, body{
 
 
 .objectPreview{
-  width: 500px;
-  height: 500px;
+  width: 100px;
+  height: 100px;
 }
 
 #searchForm{

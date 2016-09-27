@@ -1,5 +1,5 @@
-var LOADING_TIMEOUT = 250;
-var LOADING_FADE_TIME = 1500;
+var LOADING_TIMEOUT = 0;
+var LOADING_FADE_TIME = 0;
 
 
 function setupList(systems){

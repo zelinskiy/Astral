@@ -52,13 +52,13 @@ function highlightSearchPattern(text, pattern){
 function processSearchResults(rs, pattern){
   if(rs.length == 0){
     $("#searchResults").append(""
-    + '<h1 class="text-center">Nothing found for ' + pattern + '</h1>'
+    + '<h1 class="text-center">'+ pattern +' not found </h1>'
     )
     return;
   }
   rs.slice().map(function(r){
     $("#searchResults").append(""
-      + '<div class="row"><div class="col-md-7">'
+      + '<div class="row" id="objectDesc_' + r.id + '"><div class="col-md-7">'
       //+ '<img class="objectPreview" src="' + r.texture + '"/>'
       + '<canvas class="objectPreview" id="objectPreview_'
       + r.id
@@ -116,6 +116,9 @@ function loadObjectPreview(object, domElemId){
   function render() {
     requestAnimationFrame(render);
     if ($('#'+domElem.id+':hover').length != 0) {
+      rotateSphere(sphere, ROT_SPEED)
+    }
+    if ($('#objectDesc_'+object.id+':hover').length != 0) {
       rotateSphere(sphere, ROT_SPEED)
     }
     renderer.render(scene, camera);

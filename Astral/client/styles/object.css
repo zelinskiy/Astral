@@ -4,19 +4,21 @@ html, body{
 }
 
 #loadingScreenDiv{
-  position: absolute;
+  position: fixed;
   height:100vh;
   width: 100vw;
   z-index:1000;
   background-color: black;
   z-index:1000;
+  pointer-events:none;
 }
 
 #loadingScreenPic{
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
+  pointer-events:none;
 }
 
 
@@ -81,8 +83,8 @@ html, body{
 #objectNameLabel{
   color: white;
   position: absolute;
-  right:100px;
-  top:30px;
+  right:48vw;
+  top:80px;
   z-index: 30;
 }
 

@@ -1,3 +1,4 @@
+
 var SIZE = 1;
 var CONTROLS;
 var FOCUS_DISTANCE_COEFF = 5;
@@ -5,8 +6,8 @@ var SIMULATION_ACTIVE = true;
 var SPHERES;
 var ORBITS_OPACITY = 0.3;
 var ORBITS_SHOWN = true;
-var LOADING_TIMEOUT = 250;
-var LOADING_FADE_TIME = 1500;
+var LOADING_TIMEOUT = 0;
+var LOADING_FADE_TIME = 0;
 /*
 var _objects = [
   {
@@ -108,11 +109,11 @@ function loadManyTextures(spheres, render, texloader){
 }
 
 function showMyPosition(pos){
-  var prec = 4
+  var prec = 1
   $("#positionLabel").html(
-    pos.x.toPrecision(prec)
-    + " " + pos.y.toPrecision(prec)
-    + " " + pos.z.toPrecision(prec)
+    "X="   +  Math.floor(pos.x)
+    + " Y=" + Math.floor(pos.y)
+    + " Z=" + Math.floor(pos.z)
   )
 }
 
@@ -428,12 +429,22 @@ function rotateSpheres(spheres){
 function rotateSpheresOrbits(spheres){
   if(SIMULATION_ACTIVE == false) return;
   spheres.map(function(s){
+    /*
+    var theta = s.AstralObject.orbit.angleV * Math.PI / 180;
+    var px = s.position.x
+    var pz = s.position.z
+    var ox = s.AstralObject.orbit.center.x
+    var oz = s.AstralObject.orbit.center.z
+    s.position.x = Math.cos(theta) * (px-ox) - Math.sin(theta) * (pz-oz) + ox
+    s.position.y =  Math.sin(theta) * (px-ox) + Math.cos(theta) * (pz-oz) + oz
+    */
     s.position.x = s.AstralObject.orbit.center.x
       + (s.position.x - s.AstralObject.orbit.center.x)*Math.cos(s.AstralObject.orbit.angleV)
       - (s.position.z - s.AstralObject.orbit.center.z)*Math.sin(s.AstralObject.orbit.angleV);
     s.position.z = s.AstralObject.orbit.center.z
       + (s.position.x-s.AstralObject.orbit.center.x)*Math.sin(s.AstralObject.orbit.angleV)
       + (s.position.z-s.AstralObject.orbit.center.z)*Math.cos(s.AstralObject.orbit.angleV);
+
   })
 }
 

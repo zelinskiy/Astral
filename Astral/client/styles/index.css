@@ -4,19 +4,21 @@ html, body{
 }
 
 #loadingScreenDiv{
-  position: absolute;
+  position: fixed;
   height:100vh;
   width: 100vw;
   z-index:1000;
   background-color: black;
   z-index:1000;
+  pointer-events:none;
 }
 
 #loadingScreenPic{
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
+  pointer-events:none;
 }
 
 
@@ -28,7 +30,9 @@ html, body{
 }
 
 #logoDiv{
-  margin-top: 50px;
+  position:absolute;
+  top: 50px;
+  left:50px;
 }
 
 #tysonPic{
@@ -36,25 +40,24 @@ html, body{
 }
 
 #logoPic{
-  margin-top:30px;
-  width:35vw
+  width:35vw;
 }
 
 #searchForm{
-  margin-top:50px;
-  margin-bottom:50px;
-  margin-left:30vw;
-  margin-right:30vw;
+  position:absolute;
+  top: 50px;
+  right:50px;
+  width:30vw;
 }
 
 #systemsList{
-  margin-top:50px;
+  margin-top:170px;
   margin-right:100px;
   margin-left:100px;
   height: 100%;
 }
 
 .systemPictureImage{
-  max-width: 700px;
-  max-height: 300px;
+  width: 700px;
+  height: 300px;
 }
