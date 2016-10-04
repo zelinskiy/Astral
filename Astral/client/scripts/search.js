@@ -58,13 +58,14 @@ function processSearchResults(rs, pattern){
   }
   rs.slice().map(function(r){
     $("#searchResults").append(""
-      + '<div class="row" id="objectDesc_' + r.id + '"><div class="col-md-7">'
+      + '<div class="row" id="objectDesc_' + r.id + '"><div class="col-md-3"></div>'
+      + '<div class="col-md-4">'
       //+ '<img class="objectPreview" src="' + r.texture + '"/>'
       + '<canvas class="objectPreview" id="objectPreview_'
       + r.id
       + '"></canvas>'
       + '</div>'
-      + '<div class="col-md-5 objectDesc"><h3>'
+      + '<div class="objectDesc"><h3>'
       + highlightSearchPattern(r.name, pattern)
       + '</h3>'
       + '<div id="systemRefs_' + r.id + '"></div>'
