@@ -121,6 +121,13 @@ html, body{
   z-index:30;
 }
 
+#loadPositionButton{
+  position: absolute;
+  left:30px;
+  top:270px;
+  z-index:30;
+}
+
 #helpControls{
   display:none;
   position:absolute;

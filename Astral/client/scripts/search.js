@@ -56,6 +56,9 @@ function processSearchResults(rs, pattern){
     )
     return;
   }
+  $("#searchResults").append(""
+  + '<h1 class="text-center">'+ rs.length +' results found for "' + pattern + '" </h1>'
+  )
   rs.slice().map(function(r){
     $("#searchResults").append(""
       + '<div class="row" id="objectDesc_' + r.id + '"><div class="col-md-3"></div>'

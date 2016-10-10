@@ -3,12 +3,15 @@ var SIZE = 1;
 var CONTROLS;
 var FOCUS_DISTANCE_COEFF = 5;
 var SIMULATION_ACTIVE = true;
-var SPHERES;
 var ORBITS_OPACITY = 0.3;
 var ORBITS_SHOWN = true;
 var LOADING_TIMEOUT = 0;
 var LOADING_FADE_TIME = 0;
 var COMPLETE_VIEW_DISTANCE_COEFF = 2;
+
+//TODO: remove global variable
+var SPHERES;
+var SAVED_POSITIONS = [];
 /*
 var _objects = [
   {
@@ -322,12 +325,39 @@ function selectInitialObject(spheres){
   hideSidebar();
 }
 
+var savePosition = function(){ }
+function setupSavePosition(camera){
+  savePosition = function(){
+    var p = {
+        x:camera.position.x,
+        y:camera.position.y,
+        z:camera.position.z
+      }
+    SAVED_POSITIONS.push(p)
+  }
+}
+var loadPosition = function(){ }
+function setupLoadPosition(camera){
+  loadPosition = function(){
+    var p = SAVED_POSITIONS.pop()
+    if(p === undefined) return;
+    camera.position.x = p.x
+    camera.position.y = p.y
+    camera.position.z = p.z
+    
+    hideSidebar()
+    SIMULATION_ACTIVE = true;
+    updatePlayPauseSimulationButton();
+  }
+}
+
 //Must be replaced with an actual function programmatically!
 var selectObject = function(id){};
 
 function setupSelectObject(spheres){
   selectObject = function(id){
     SIMULATION_ACTIVE = false;
+    savePosition();
     updatePlayPauseSimulationButton();
     var object = spheres.find(function(s){return s.AstralObject.id == id;});
     lookAtObject(object, 100, object.AstralObject.r * FOCUS_DISTANCE_COEFF);
@@ -577,6 +607,9 @@ function setupViewSystemCompletely(camera, objects){
   var m = findBiggestDistanceToCenter(objects);
   viewSystemCompletely = function(){
     camera.position.set(0, m * COMPLETE_VIEW_DISTANCE_COEFF, 0)
+    hideSidebar()
+    SIMULATION_ACTIVE = true;
+    updatePlayPauseSimulationButton();
   }
 }
 
@@ -606,9 +639,10 @@ $(document).ready(function () {
   setupObjectsList(spheres.slice().map(function(s){ return s.AstralObject; }))
   setupSelectObject(spheres.slice())
   setupViewSystemCompletely(camera, spheres.slice().map(function(s){ return s.AstralObject; }))
+  setupSavePosition(camera)
+  setupLoadPosition(camera)
   selectInitialObject(spheres)
-
-
+  viewSystemCompletely();
 
   //Our loop
   function render() {
