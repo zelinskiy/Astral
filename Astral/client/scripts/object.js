@@ -8,6 +8,7 @@ var ORBITS_OPACITY = 0.3;
 var ORBITS_SHOWN = true;
 var LOADING_TIMEOUT = 0;
 var LOADING_FADE_TIME = 0;
+var COMPLETE_VIEW_DISTANCE_COEFF = 2;
 /*
 var _objects = [
   {
@@ -438,12 +439,14 @@ function rotateSpheresOrbits(spheres){
     s.position.x = Math.cos(theta) * (px-ox) - Math.sin(theta) * (pz-oz) + ox
     s.position.y =  Math.sin(theta) * (px-ox) + Math.cos(theta) * (pz-oz) + oz
     */
-    s.position.x = s.AstralObject.orbit.center.x
+    var x = s.AstralObject.orbit.center.x
       + (s.position.x - s.AstralObject.orbit.center.x)*Math.cos(s.AstralObject.orbit.angleV)
       - (s.position.z - s.AstralObject.orbit.center.z)*Math.sin(s.AstralObject.orbit.angleV);
-    s.position.z = s.AstralObject.orbit.center.z
+    var z = s.AstralObject.orbit.center.z
       + (s.position.x-s.AstralObject.orbit.center.x)*Math.sin(s.AstralObject.orbit.angleV)
       + (s.position.z-s.AstralObject.orbit.center.z)*Math.cos(s.AstralObject.orbit.angleV);
+
+    s.position.set(x, s.position.y, z)
 
   })
 }
@@ -556,6 +559,27 @@ function hideSidebar(){
   $("#object_information").hide()
 }
 
+function findBiggestDistanceToCenter(objects){
+  var max = 0;
+  var center = { x:0, y:0, z:0 }
+  for(i = 0; i<objects.length; i++){
+    var d = distanceBetween(objects[i].position, center)
+    if(d > max){
+      max = d
+    }
+  }
+  return max;
+}
+
+var viewSystemCompletely = function() { }
+
+function setupViewSystemCompletely(camera, objects){
+  var m = findBiggestDistanceToCenter(objects);
+  viewSystemCompletely = function(){
+    camera.position.set(0, m * COMPLETE_VIEW_DISTANCE_COEFF, 0)
+  }
+}
+
 $(document).ready(function () {
   //Setting up variables
   var domElem = document.getElementById("WebGL-output");
@@ -581,6 +605,7 @@ $(document).ready(function () {
   showLightsOnScene(scene);
   setupObjectsList(spheres.slice().map(function(s){ return s.AstralObject; }))
   setupSelectObject(spheres.slice())
+  setupViewSystemCompletely(camera, spheres.slice().map(function(s){ return s.AstralObject; }))
   selectInitialObject(spheres)
 
 

@@ -472,7 +472,7 @@ let AlphaCentauriA = {
     Radius = 30.0
     Orbit = { 
             Center = { x=(0.0); y=0.0; z=0.0; }
-            AngleVelocity = 0.001
+            AngleVelocity = 0.1
             Color = "#0040ff"
         }
     RotationVelocity = 0.0

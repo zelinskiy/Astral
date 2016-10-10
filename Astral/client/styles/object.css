@@ -3,6 +3,8 @@ html, body{
   background-color: black;
 }
 
+
+
 #loadingScreenDiv{
   position: fixed;
   height:100vh;
@@ -65,6 +67,8 @@ html, body{
   z-index:30;
 }
 
+
+
 #objectsListDropdown{
   position: absolute;
   left:30px;
@@ -107,6 +111,13 @@ html, body{
   position: absolute;
   left:30px;
   top:190px;
+  z-index:30;
+}
+
+#viewSystemCompletelyButton{
+  position: absolute;
+  left:30px;
+  top:230px;
   z-index:30;
 }
 
