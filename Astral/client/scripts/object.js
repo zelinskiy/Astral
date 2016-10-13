@@ -344,7 +344,7 @@ function setupLoadPosition(camera){
     camera.position.x = p.x
     camera.position.y = p.y
     camera.position.z = p.z
-    
+
     hideSidebar()
     SIMULATION_ACTIVE = true;
     updatePlayPauseSimulationButton();
@@ -610,6 +610,7 @@ function setupViewSystemCompletely(camera, objects){
     hideSidebar()
     SIMULATION_ACTIVE = true;
     updatePlayPauseSimulationButton();
+    savePosition();
   }
 }
 

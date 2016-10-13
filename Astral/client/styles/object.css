@@ -72,7 +72,7 @@ html, body{
 #objectsListDropdown{
   position: absolute;
   left:30px;
-  top:110px;
+  top:270px;
   z-index:30;
 }
 
@@ -124,7 +124,7 @@ html, body{
 #loadPositionButton{
   position: absolute;
   left:30px;
-  top:270px;
+  top:110px;
   z-index:30;
 }
 
